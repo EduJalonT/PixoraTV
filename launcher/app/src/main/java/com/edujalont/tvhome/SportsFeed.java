@@ -96,11 +96,15 @@ final class SportsFeed {
         /** Short status: the minute or period while live, a time before, "Final" after (filled by the UI when null). */
         String status;
         String text;
+        /** Crest before the text (home team, or an F1 driver's flag) and after it (away team); null: none. */
+        String leadLogo, trailLogo;
     }
 
     /** One followed thing: its title and its rows (empty: nothing in these days). */
     static final class Group {
         String title;
+        /** The competition's logo, or null. */
+        String logo;
         final List<Row> rows = new ArrayList<>();
         boolean failed;
     }
@@ -222,6 +226,7 @@ final class SportsFeed {
 
     private static void espn(Comp c, String teamId, Group g) throws Exception {
         JSONObject board = new JSONObject(get(ESPN + c.espn + "/scoreboard", null));
+        g.logo = leagueLogo(board);
         List<Row> rows = new ArrayList<>();
         JSONArray events = board.optJSONArray("events");
         if (events != null) {
@@ -273,6 +278,8 @@ final class SportsFeed {
         Row r = new Row();
         r.start = parseTime(ev.optString("date", comp.optString("date")));
         String h = teamName(home), a = teamName(away);
+        r.leadLogo = teamLogo(home);
+        r.trailLogo = teamLogo(away);
         if ("pre".equals(state)) {
             r.state = PRE;
             r.text = h + "  –  " + a;
@@ -286,6 +293,48 @@ final class SportsFeed {
             }
         }
         return r;
+    }
+
+    /** The scoreboard's competition logo (ESPN: leagues[0].logos[0].href). */
+    private static String leagueLogo(JSONObject board) {
+        JSONArray leagues = board.optJSONArray("leagues");
+        if (leagues == null || leagues.length() == 0) return null;
+        return firstLogo(leagues.optJSONObject(0));
+    }
+
+    /** A team's crest: "logo" on the scoreboard, "logos[]" on a team's schedule. */
+    private static String teamLogo(JSONObject competitor) {
+        JSONObject t = competitor.optJSONObject("team");
+        if (t == null) return null;
+        String l = t.optString("logo", "");
+        return l.isEmpty() ? firstLogo(t) : small(l);
+    }
+
+    private static String firstLogo(JSONObject o) {
+        if (o == null) return null;
+        JSONArray logos = o.optJSONArray("logos");
+        if (logos == null || logos.length() == 0) return null;
+        // A dark-background variant when ESPN has one: black crests vanish on this panel.
+        for (int i = 0; i < logos.length(); i++) {
+            JSONObject l = logos.optJSONObject(i);
+            JSONArray rel = l == null ? null : l.optJSONArray("rel");
+            if (rel != null && rel.toString().contains("\"dark\"")) return small(l.optString("href"));
+        }
+        return small(logos.optJSONObject(0).optString("href"));
+    }
+
+    /**
+     * ESPN serves its logos at 500 px; its "combiner" returns them already scaled, so a crest is a few
+     * KB instead of a hundred. Other hosts are left as they are.
+     */
+    static String small(String url) {
+        if (url == null || url.isEmpty()) return null;
+        // ESPN gives some logos (the dark variants) as http://, which Android refuses in the clear.
+        if (url.startsWith("http://")) url = "https://" + url.substring("http://".length());
+        String host = "https://a.espncdn.com";
+        if (url.startsWith(host + "/combiner/")) return url + (url.contains("?") ? "&" : "?") + "w=80&h=80";
+        if (url.startsWith(host + "/i/")) return host + "/combiner/i?img=" + url.substring(host.length()) + "&w=80&h=80";
+        return url;
     }
 
     private static String teamIdOf(JSONObject competitor) {
@@ -324,6 +373,7 @@ final class SportsFeed {
 
     private static void f1(Context ctx, Group g) throws Exception {
         JSONObject board = new JSONObject(get(ESPN + "racing/f1/scoreboard", null));
+        g.logo = leagueLogo(board);
         JSONArray events = board.optJSONArray("events");
         if (events == null || events.length() == 0) return;
         JSONObject ev = events.getJSONObject(0);
@@ -347,13 +397,25 @@ final class SportsFeed {
             head.start = parseTime(shown.optString("date"));
             head.text = sessionName(ctx, shown);
             g.rows.add(head);
-            List<String> order = live != null ? openF1Order() : null;
-            if (order == null) order = espnOrder(shown);
-            for (int i = 0; i < order.size() && i < (live != null ? 10 : 5); i++) {
+            // ESPN's order carries each driver's flag; OpenF1's, while live, only the names, so the
+            // flags are matched back from ESPN's list by name.
+            List<String[]> espn = espnOrder(shown);
+            Map<String, String> flags = new HashMap<>();
+            for (String[] d : espn) if (d[1] != null) flags.put(fold(lastName(d[0])), d[1]);
+            List<String> live1 = live != null ? openF1Order() : null;
+            int max = live != null ? 10 : 5;
+            int n = live1 != null ? live1.size() : espn.size();
+            for (int i = 0; i < n && i < max; i++) {
                 Row r = new Row();
                 r.state = head.state;
                 r.status = "P" + (i + 1);
-                r.text = order.get(i);
+                if (live1 != null) {
+                    r.text = live1.get(i);
+                    r.leadLogo = flags.get(fold(lastName(r.text)));
+                } else {
+                    r.text = espn.get(i)[0];
+                    r.leadLogo = espn.get(i)[1];
+                }
                 g.rows.add(r);
             }
         }
@@ -377,17 +439,26 @@ final class SportsFeed {
         }
     }
 
-    private static List<String> espnOrder(JSONObject session) {
+    /** The session's order from ESPN: {name, flag URL or null} per driver. */
+    private static List<String[]> espnOrder(JSONObject session) {
         JSONArray c = session.optJSONArray("competitors");
         List<JSONObject> list = new ArrayList<>();
         if (c != null) for (int i = 0; i < c.length(); i++) list.add(c.optJSONObject(i));
         Collections.sort(list, (x, y) -> Integer.compare(x.optInt("order", 99), y.optInt("order", 99)));
-        List<String> out = new ArrayList<>();
+        List<String[]> out = new ArrayList<>();
         for (JSONObject o : list) {
             JSONObject a = o.optJSONObject("athlete");
-            out.add(a == null ? "?" : a.optString("shortName", a.optString("displayName", "?")));
+            String name = a == null ? "?" : a.optString("shortName", a.optString("displayName", "?"));
+            JSONObject flag = a == null ? null : a.optJSONObject("flag");
+            out.add(new String[]{name, flag == null ? null : small(flag.optString("href"))});
         }
         return out;
+    }
+
+    /** "L. Norris" and "Lando NORRIS" both end in the surname: what the two feeds share. */
+    private static String lastName(String name) {
+        String[] p = name.trim().split("\\s+");
+        return p[p.length - 1];
     }
 
     /** The current order from OpenF1, or null when it does not answer (it can ask for an account while live). */
@@ -454,6 +525,7 @@ final class SportsFeed {
             JSONObject teams = f.optJSONObject("teams");
             String h = teams.optJSONObject("home").optString("name");
             String a = teams.optJSONObject("away").optString("name");
+            if (g.logo == null) g.logo = league.optString("logo", null);
             if (!want.isEmpty() && !fold(h).contains(want) && !fold(a).contains(want)) continue;
             JSONObject fx = f.optJSONObject("fixture");
             JSONObject st = fx.optJSONObject("status");
@@ -461,6 +533,8 @@ final class SportsFeed {
             JSONObject goals = f.optJSONObject("goals");
             Row r = new Row();
             r.start = parseTime(fx.optString("date"));
+            r.leadLogo = teams.optJSONObject("home").optString("logo", null);
+            r.trailLogo = teams.optJSONObject("away").optString("logo", null);
             if ("NS".equals(s) || "TBD".equals(s)) {
                 r.state = PRE;
                 r.text = h + "  –  " + a;

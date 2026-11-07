@@ -6,8 +6,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -79,21 +81,34 @@ public final class ScoresActivity extends Activity {
         list.removeAllViews();
         float dp = getResources().getDisplayMetrics().density;
         for (SportsFeed.Group g : groups) {
+            // The block's header: the competition's logo, then its name.
+            LinearLayout headRow = new LinearLayout(this);
+            headRow.setOrientation(LinearLayout.HORIZONTAL);
+            headRow.setGravity(Gravity.CENTER_VERTICAL);
+            LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            hp.topMargin = (int) (22 * dp);
+            hp.bottomMargin = (int) (4 * dp);
+            headRow.setLayoutParams(hp);
+            ImageView logo = new ImageView(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (28 * dp), (int) (28 * dp));
+            lp.setMarginEnd((int) (12 * dp));
+            logo.setLayoutParams(lp);
+            logo.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            logo.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            headRow.addView(logo);
+            LogoCache.load(logo, g.logo);
             TextView head = new TextView(this);
             head.setText(g.title.toUpperCase(Locale.getDefault()));
             head.setTextColor(0xFF8AB4F8);
             head.setTextSize(14);
             head.setLetterSpacing(0.12f);
             head.setTypeface(Typeface.DEFAULT_BOLD);
-            LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            hp.topMargin = (int) (22 * dp);
-            hp.bottomMargin = (int) (4 * dp);
-            head.setLayoutParams(hp);
-            list.addView(head);
+            headRow.addView(head);
+            list.addView(headRow);
             if (g.rows.isEmpty()) {
                 list.addView(row(dp, "", getString(g.failed ? R.string.scores_error : R.string.scores_no_games),
-                        SportsFeed.PRE));
+                        SportsFeed.PRE, null, null));
                 continue;
             }
             for (SportsFeed.Row r : g.rows) {
@@ -103,7 +118,7 @@ public final class ScoresActivity extends Activity {
                             : r.state == SportsFeed.LIVE ? getString(R.string.scores_live)
                             : SportsFeed.startLabel(r.start);
                 }
-                list.addView(row(dp, status, r.text, r.state));
+                list.addView(row(dp, status, r.text, r.state, r.leadLogo, r.trailLogo));
             }
         }
         if (fresh) {
@@ -127,7 +142,7 @@ public final class ScoresActivity extends Activity {
     }
 
     /** A focusable line: the status on the left (red while live), the game on the right. */
-    private View row(float dp, String status, String text, int state) {
+    private View row(float dp, String status, String text, int state, String lead, String trail) {
         View line = LayoutInflater.from(this).inflate(R.layout.item_score_row, list, false);
         TextView st = line.findViewById(R.id.status);
         st.setText(status);
@@ -136,6 +151,8 @@ public final class ScoresActivity extends Activity {
             st.setTextColor(0xFFFF5252);
         }
         ((TextView) line.findViewById(R.id.game)).setText(text);
+        LogoCache.load(line.findViewById(R.id.leadLogo), lead);
+        LogoCache.load(line.findViewById(R.id.trailLogo), trail);
         return line;
     }
 }
