@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The options panel: dark, from the top to the bottom of the screen, rounded on the side facing the Home. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:angle="270" android:startColor="#F5242428" android:endColor="#F8161618" />
+    <corners android:topLeftRadius="24dp" android:bottomLeftRadius="24dp"
+        android:topRightRadius="0dp" android:bottomRightRadius="0dp" />
+</shape>

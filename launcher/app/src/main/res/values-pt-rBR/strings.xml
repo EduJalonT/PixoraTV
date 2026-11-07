@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pixora TV</string>
+    <string name="inputs">Entradas</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="settings">Configurações</string>
+    <string name="home_options">Opções</string>
+    <string name="quick_panel_label">Pixora TV: configurações rápidas e tela inicial</string>
+    <string name="quick_panel_description">Início abre este launcher; apertado duas vezes ou mantido, abre o painel de configurações rápidas do sistema. Só usa a tecla Início: as demais teclas passam sem alteração. Para que a tela inicial original não apareça, só verifica qual app está na frente, nunca o que ele mostra.</string>
+    <string name="choose_input">Entradas</string>
+    <string name="connected">Conectado</string>
+    <string name="standby">Em espera</string>
+    <string name="not_connected">Sem dispositivo</string>
+    <string name="live_tv">TV ao vivo</string>
+    <string name="no_inputs">Nenhuma entrada encontrada</string>
+    <string name="good_morning">Bom dia</string>
+    <string name="good_afternoon">Boa tarde</string>
+    <string name="good_evening">Boa noite</string>
+    <string name="good_night">Boa noite</string>
+    <string name="ethernet">Cabo</string>
+    <string name="offline">Sem conexão</string>
+    <string name="not_available">Não disponível nesta TV</string>
+    <string name="cant_open">Não foi possível abrir %1$s</string>
+    <!-- Curto de proposito: o dia por extenso em portugues invade o botao Entradas. -->
+    <string name="date_format">EEE, d \'de\' MMM</string>
+    <string name="dream_name">Relógio</string>
+    <string name="voice">Voz</string>
+    <string name="menu_move_left">Mover para a esquerda</string>
+    <string name="menu_move_right">Mover para a direita</string>
+    <string name="menu_unpin">Remover do dock</string>
+    <string name="menu_pin">Fixar no dock</string>
+    <string name="menu_hide">Ocultar</string>
+    <string name="menu_info">Informações do app</string>
+    <string name="dock_full">O dock está cheio: remova um app primeiro</string>
+    <string name="opt_light_on">Modo ultraleve: ligado</string>
+    <string name="opt_light_off">Modo ultraleve: desligado</string>
+    <string name="opt_weather">Clima: %1$s</string>
+    <string name="opt_weather_off">Clima: desligado</string>
+    <string name="opt_weather_disable">Desligar o clima</string>
+    <string name="opt_unhide">Mostrar apps ocultos (%1$d)</string>
+    <string name="opt_reset_dock">Restaurar o dock padrão</string>
+    <string name="weather_title">Cidade para o clima</string>
+    <string name="weather_hint">Ex.: Porto Alegre</string>
+    <string name="weather_not_found">Cidade não encontrada</string>
+    <string name="weather_failed">Não foi possível obter o clima</string>
+    <string name="weather_set">Clima: %1$s</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+    <string name="name_none">sem nome</string>
+    <string name="greet_morning">Bom dia, %1$s.</string>
+    <string name="greet_afternoon">Boa tarde, %1$s.</string>
+    <string name="greet_night">Boa noite, %1$s.</string>
+    <string name="greet_morning_all">Bom dia a todos.</string>
+    <string name="greet_afternoon_all">Boa tarde a todos.</string>
+    <string name="greet_night_all">Boa noite a todos.</string>
+    <string name="opt_greet">Saudar: %1$s</string>
+    <string name="greet_everyone">todos</string>
+    <string name="greet_need_name">Digite seu nome primeiro (Opções &gt; Seu nome).</string>
+    <string name="sub_morning">Tudo pronto para começar o dia.</string>
+    <string name="sub_afternoon">Tudo pronto para a sua tarde.</string>
+    <string name="sub_night">Hora de relaxar.</string>
+    <string name="opt_name">Seu nome: %1$s</string>
+    <string name="opt_message">Mensagem: %1$s</string>
+    <string name="opt_message_auto">automática</string>
+    <string name="opt_accent">Cor de destaque: %1$s</string>
+    <string name="opt_motion_on">Movimento suave: ligado</string>
+    <string name="opt_motion_off">Movimento suave: desligado</string>
+    <string name="opt_profiles">Perfis da família: %1$d</string>
+    <string name="opt_columns">Colunas: %1$d</string>
+    <string name="opt_experience">Experiência: %1$s</string>
+    <string name="experience_title">Experiência</string>
+    <string name="experience_performance">Desempenho (padrão): fundo preto, foco imediato</string>
+    <string name="experience_balanced">Equilibrado: foco suave, fundo preto</string>
+    <string name="experience_visual" formatted="false">Visual: foco suave + Aurora\nMedido na v0.5.6: +9 MB e 0,19% → 6,89% de quadros atrasados</string>
+    <string name="experience_performance_short">Desempenho</string>
+    <string name="experience_balanced_short">Equilibrado</string>
+    <string name="experience_visual_short">Visual</string>
+    <string name="experience_custom_short">Personalizado</string>
+    <string name="opt_wallpaper_on">Papel de parede: Aurora</string>
+    <string name="opt_wallpaper_off">Papel de parede: preto</string>
+    <string name="wallpaper_title">Papel de parede Aurora</string>
+    <string name="wallpaper_cost" formatted="false">Medido na TV de referência com a v0.5.6: cerca de 9 MB a mais de memória, e os quadros atrasados passaram de 0,19% (preto) para 6,89% (Aurora) na bateria de navegação. A resposta mediana da tecla ficou em 17 ms. Você pode voltar ao fundo preto quando quiser.</string>
+    <string name="wallpaper_enable">Ativar fundo</string>
+    <string name="wallpaper_cost_unmeasured">Este fundo com imagem ainda não foi medido nesta TV. Se notar mais travadas, volte ao preto.</string>
+    <string name="opt_wallpaper">Papel de parede: %1$s</string>
+    <string-array name="wallpaper_names">
+        <item>Preto</item>
+        <item>Meia-noite</item>
+        <item>Floresta</item>
+        <item>Ameixa</item>
+        <item>Vinho</item>
+        <item>Grafite</item>
+        <item>Petróleo</item>
+        <item>Aurora</item>
+        <item>Terra à noite</item>
+        <item>Nebulosa desfocada</item>
+        <item>Via Láctea desfocada</item>
+        <item>Rastros de estrelas desfocados</item>
+    </string-array>
+    <string name="wallpaper_light">O modo ultralight usa sempre o fundo preto.</string>
+    <string name="columns_title">Colunas</string>
+    <string name="profiles_title">Perfis da família</string>
+    <string name="profile_save">Salvar perfil atual</string>
+    <string name="profile_name_title">Nome do perfil</string>
+    <string name="profile_saved">Perfil %1$s salvo</string>
+    <string name="profile_load">Carregar</string>
+    <string name="profile_delete">Apagar</string>
+    <string name="profile_deleted">Perfil %1$s apagado</string>
+    <string name="profile_empty">Nenhum perfil ainda. Salve o visual atual para criar o primeiro.</string>
+    <string name="name_title">Seu nome</string>
+    <string name="message_title">Mensagem abaixo da saudação</string>
+    <string name="message_hint">Deixe vazio para a automática</string>
+    <string name="rec_tvlauncher">Reativar o launcher original</string>
+    <string name="rec_settings">Abrir as Configurações</string>
+    <string name="rec_reset">Restaurar os padrões do Início</string>
+    <string name="rec_close">Fechar</string>
+    <string name="rec_reset_confirm">Seu nome, a saudação, a mensagem, a cor de destaque, a experiência, as colunas, o fundo, os perfis da família, o dock, a ordem dos apps e os apps ocultos voltam aos padrões. O clima e as notícias ficam como estão.</string>
+    <string name="rec_reset_yes">Restaurar</string>
+    <string-array name="accent_names">
+        <item>Azul</item>
+        <item>Verde</item>
+        <item>Laranja</item>
+        <item>Rosa</item>
+        <item>Roxo</item>
+        <item>Branco</item>
+    </string-array>
+    <string name="remap_label">Pixora TV: botões do controle</string>
+    <string name="remap_description">Quando o botão Globoplay do controle abre o Globoplay, troca para outro app. Pela tela inicial o Globoplay abre normalmente. Não lê a tela nem o que você digita; só percebe quando o Globoplay abre.</string>
+    <string name="opt_remap_on">Botão Globoplay: abre %1$s</string>
+    <string name="opt_remap_off">Botão Globoplay: padrão (Globoplay)</string>
+    <string name="opt_remap_service">Botão Globoplay: ativar o remapeador</string>
+    <string name="wx_clear">CÉU LIMPO</string>
+    <string name="wx_few_clouds">POUCAS NUVENS</string>
+    <string name="wx_overcast">NUBLADO</string>
+    <string name="wx_fog">NEBLINA</string>
+    <string name="wx_drizzle">GAROA</string>
+    <string name="wx_rain">CHUVA</string>
+    <string name="wx_snow">NEVE</string>
+    <string name="wx_showers">PANCADAS DE CHUVA</string>
+    <string name="wx_thunderstorm">TROVOADAS</string>
+
+    <!-- Input cards: portas HDMI/AV como cartões na Home. -->
+    <string name="input_cards">Cartões de entrada</string>
+    <string name="input_card_name">Nome: %1$s</string>
+    <string name="input_card_name_default">Igual à entrada</string>
+    <string name="input_card_icon">Ícone: %1$s</string>
+    <string name="input_card_icon_title">Ícone</string>
+    <string name="input_card_shown">Mostrar na Home: %1$s</string>
+    <string name="card_name_title">Nome do cartão</string>
+    <string name="icon_game">Jogo</string>
+    <string name="icon_movie">Filme</string>
+    <string name="icon_music">Música</string>
+    <string name="icon_computer">Computador</string>
+    <string name="on">Ligado</string>
+    <string name="off">Desligado</string>
+
+    <!-- Notícias (RSS). -->
+    <string name="news_settings_title">Notícias</string>
+    <string name="news_enabled">Linha de notícias: %1$s</string>
+    <string name="news_full">Notícias em tela cheia</string>
+    <string name="news_idle_enabled">Protetor de tela no ocioso: %1$s</string>
+    <string name="news_empty">Nenhuma notícia carregada ainda</string>
+    <string name="news_custom">Feed %1$d: %2$s</string>
+    <string name="news_custom_none">Nenhum</string>
+    <string name="news_custom_title">Endereço do feed</string>
+    <string name="news_custom_hint">https://exemplo.com/feed/</string>
+    <string name="news_cinema">Foto de fundo: %1$s</string>
+    <string name="news_rotate">Trocar manchete no ocioso: %1$s</string>
+    <string name="news_refresh">Atualizar notícias a cada: %1$d min</string>
+    <string name="news_image_age">Guardar as fotos por: %1$d h</string>
+    <string name="news_meta">%1$s · %2$s</string>
+    <string name="news_clear">Limpar notícias agora</string>
+    <string name="news_open_hint">Pressione OK para abrir</string>
+    <!-- Placares ao vivo (SportsFeed, ScoresActivity, SportsSettingsActivity). -->
+    <string name="scores_title">Placares</string>
+    <string name="scores_edit">Escolher o que seguir</string>
+    <string name="scores_enabled">Placares: %1$s</string>
+    <string name="scores_slot">Seguindo %1$d: %2$s</string>
+    <string name="scores_none">Nenhum</string>
+    <string name="scores_pick_title">Liga ou esporte</string>
+    <string name="scores_whole_league">A liga inteira</string>
+    <string name="scores_loading_teams">Carregando times…</string>
+    <string name="scores_apikey">Chave da API-Football: %1$s</string>
+    <string name="scores_apikey_none">nenhuma (opcional)</string>
+    <string name="scores_apikey_set">salva</string>
+    <string name="scores_apikey_title">Chave da API-Football</string>
+    <string name="scores_apikey_hint">Usada só se a ESPN não responder</string>
+    <string name="scores_following">%1$d seguidos</string>
+    <string name="scores_loading">Carregando…</string>
+    <string name="scores_updated">Atualizado às %1$s</string>
+    <string name="scores_empty_setup">Escolha ligas ou times com o lápis acima (ou Opções &gt; Placares).</string>
+    <string name="scores_no_games">Sem jogos nestes dias</string>
+    <string name="scores_error">Não foi possível carregar</string>
+    <string name="scores_final">Final</string>
+    <string name="scores_live">Ao vivo</string>
+    <string name="scores_f1_race">Corrida</string>
+    <string name="scores_f1_qual">Classificação</string>
+    <string name="scores_f1_sprint">Sprint</string>
+    <string name="scores_f1_session">Sessão</string>
+    <string name="greet_morning_short">Bom dia.</string>
+    <string name="greet_afternoon_short">Boa tarde.</string>
+    <string name="greet_night_short">Boa noite.</string>
+    <string name="home_lost_title">O Google TV recuperou a tela inicial</string>
+    <string name="home_lost_message">O botão Início voltou a abrir o Google TV. Quer que este launcher volte a ser a tela inicial?</string>
+    <string name="home_lost_fix">Restaurar</string>
+    <string name="home_lost_later">Agora não</string>
+    <string name="home_lost_adb">Este aparelho não permite escolher aqui a tela inicial. Em um computador, execute:\nadb shell cmd role add-role-holder --user 0 android.app.role.HOME %1$s</string>
+    <string name="home_restored">Pronto: este launcher voltou a ser a tela inicial.</string>
+    <string name="service_off_title">Serviço de Início desativado</string>
+    <string name="service_off_message">O serviço de acessibilidade «%1$s» está desativado. Sem ele, apertar Início duas vezes abre as Configurações em vez do painel de configurações rápidas, e a tela inicial não é vigiada. Ative em Configurações &gt; Sistema &gt; Acessibilidade, ou execute instalar.ps1 de novo.</string>
+    <string name="service_off_open">Abrir Acessibilidade</string>
+    <string name="menu_move_up">Mover para cima</string>
+    <string name="menu_move_down">Mover para baixo</string>
+    <string name="opt_reset_order">Restaurar a ordem dos apps</string>
+    <!-- Nome Pixora TV e o atualizador (Updater, UpdateReceiver). -->
+    <string name="app_slogan">Uma nova experiência para Android / Google TV</string>
+    <string name="opt_update_auto">Procurar atualizações automaticamente: %1$s</string>
+    <string name="update_checking">Procurando atualizações…</string>
+    <string name="update_about_title">Pixora TV %1$s</string>
+    <string name="update_none">Você tem a última versão publicada.</string>
+    <string name="update_check_failed">Não foi possível procurar atualizações: %1$s</string>
+    <string name="update_no_apk">A última versão publicada não traz o APK.</string>
+    <string name="update_title">Pixora TV %1$s disponível</string>
+    <string name="update_message">Você tem a versão %1$s.</string>
+    <string name="update_news">Novidades:</string>
+    <string name="update_now">Atualizar</string>
+    <string name="update_later">Agora não</string>
+    <string name="update_downloading">Baixando… %1$d%%</string>
+    <string name="update_installing">Abrindo o instalador do Android…</string>
+    <string name="update_failed">Não foi possível atualizar: %1$s</string>
+    <string name="update_cancelled">Atualização cancelada</string>
+    <string name="update_permission_title">Permitir que o Pixora TV instale suas atualizações</string>
+    <string name="update_permission_message">O Android pede permissão antes de um app instalar apps. Na próxima tela, ative para o Pixora TV (Fontes desconhecidas), volte e escolha Atualizar de novo. De um computador:\nadb shell appops set %1$s REQUEST_INSTALL_PACKAGES allow</string>
+    <string name="update_permission_open">Abrir a configuração</string>
+    <string name="update_err_network">sem conexão com o GitHub, ou o download foi interrompido</string>
+    <string name="update_err_http">O GitHub respondeu %1$d</string>
+    <string name="update_err_none_published">ainda não há nada publicado no GitHub (%1$d)</string>
+    <string name="update_err_checksum">o arquivo baixado não confere com o SHA-256 publicado no GitHub</string>
+    <string name="update_err_package">o APK não é uma versão mais nova do Pixora TV assinada com a mesma chave</string>
+    <string name="update_err_install">O Android não aceitou a instalação</string>    <!-- Seções do painel de opções (MainActivity.optionsFor). -->
+    <string name="sec_header_personal">Personalização</string>
+    <string name="sec_header_system">Sistema</string>
+    <string name="sec_profile">Perfil</string>
+    <string name="sec_look">Aparência</string>
+    <string name="sec_weather">Clima</string>
+    <string name="sec_apps">Apps e dock</string>
+    <string name="sec_apps_summary">Dock, ordem dos apps e apps ocultos</string>
+    <string name="sec_updates">Atualizações</string>
+    <string name="sec_recovery">Recuperação</string>
+    <string name="sec_recovery_summary">Tela inicial original, Configurações e padrões</string>
+    <string name="opt_update_check">Procurar atualizações agora</string></resources>

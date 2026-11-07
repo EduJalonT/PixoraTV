@@ -1,0 +1,82 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Release key, kept out of git (launcher/.gitignore): keystore.properties names release.jks and its
+// passwords. A checkout without them still builds, signed with the local debug key.
+def keystorePropsFile = rootProject.file('keystore.properties')
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) keystorePropsFile.withInputStream { keystoreProps.load(it) }
+
+android {
+    namespace 'com.edujalont.tvhome'
+    compileSdk 34
+
+    defaultConfig {
+        // Pixora TV's own id, so it never collides with upstream installs.
+        applicationId 'app.pixora.tv'
+        minSdk 26
+        targetSdk 29
+        // Chromecast with Google TV build (button for the options, Home double press, Google TV Home guard).
+        // Date-based: versionName YYYY.MM.DD.NNN, versionCode YYMMDDNNN (well below the int limit).
+        versionCode 261107007
+        versionName '2026.11.07.007'
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropsFile.exists()) {
+                storeFile rootProject.file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            // R8 drops the unused Kotlin stdlib that AndroidX pulls in: on the reference TV a full `speed`
+            // compile of the unshrunk APK took ~50 s and most of it was kotlin.* code we never call.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            // Sideloaded over ADB. Signed with the owner's release key when keystore.properties is
+            // there, so a build from another computer still updates the installed launcher; without
+            // it, the local debug key (which cannot update a release-signed install).
+            signingConfig keystorePropsFile.exists() ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+
+    lint {
+        // The launcher is sideloaded over ADB, never published to Google Play, so Play's minimum targetSdk
+        // does not apply; without this, lintVitalRelease fails assembleRelease.
+        disable 'ExpiredTargetSdkVersion'
+        // Every user-visible text lives in res/values*/strings.xml so a new language is one file
+        // (docs/LOCALIZATION.md); text typed straight into a layout or setText() fails the build.
+        // Some community locales are incomplete: Android falls back to the default strings.
+        // Keep missing translations visible as warnings; genuine lint/code errors remain fatal.
+        warning 'MissingTranslation'
+        fatal 'HardcodedText', 'SetTextI18n'
+    }
+
+    testOptions {
+        // Unit tests cover the pure arithmetic the launcher gets right before it touches a View
+        // (WallpaperSize, AppAdapter's tile geometry). Android's classes are stubs in a unit test, so
+        // the stubs return defaults instead of throwing "not mocked".
+        unitTests.returnDefaultValues = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+
+    // JVM unit tests only; not in the APK.
+    testImplementation 'junit:junit:4.13.2'
+}

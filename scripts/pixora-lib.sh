@@ -1,0 +1,158 @@
+# Funcoes compartilhadas pelos scripts bash do Pixora TV (Git Bash no Windows). Use: . "$(dirname "$0")/pixora-lib.sh"
+export MSYS_NO_PATHCONV=1
+# Numeros com ponto decimal, independente da maquina: em locale pt_BR o printf do bash
+# formata "17,0" e rejeita "17.0" como entrada, o que quebra os CSV e o nome dos arquivos.
+export LC_ALL=C
+export LANG=C
+
+if [ -z "${ADB:-}" ]; then
+    if command -v adb >/dev/null 2>&1; then
+        ADB=adb
+    else
+        ADB="$(cygpath -u "$LOCALAPPDATA")/Microsoft/WinGet/Packages/Google.PlatformTools_Microsoft.Winget.Source_8wekyb3d8bbwe/platform-tools/adb.exe"
+    fi
+fi
+TV_HOST="${PIXORA_TV_HOST:?Set PIXORA_TV_HOST=<tv-ip> (defina o IP da TV)}"
+SERIAL="$TV_HOST:5555"
+
+# stdin de /dev/null: o adb shell le a entrada padrao e engoliria o resto de um "while read".
+tv() { "$ADB" -s "$SERIAL" shell "$@" < /dev/null | tr -d '\r'; }
+log() { echo "[$(date +%H:%M:%S)] $*"; }
+
+tv_connect() {
+    "$ADB" connect "$SERIAL" >/dev/null 2>&1
+    [ "$("$ADB" -s "$SERIAL" get-state 2>/dev/null | tr -d '\r')" = device ] || { echo "TV $SERIAL indisponivel"; exit 2; }
+}
+
+# Componente que hoje responde ao Home (ex.: com.google.android.tvlauncher/.MainActivity).
+tv_home_component() {
+    tv cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME | grep / | tail -1
+}
+
+# Pacote da janela em foco.
+tv_focus_pkg() {
+    tv dumpsys window | grep -m1 mCurrentFocus | sed -E 's/.* u0 ([^/ ]+)\/.*/\1/'
+}
+
+# Entradas HDMI/AV com dispositivo conectado (estado 0), uma por linha.
+tv_connected_passthrough() {
+    tv dumpsys tv_input | grep -E "passthroughinput.*state: 0" | sed -E 's/^ *([^:]+): info.*/\1/'
+}
+
+# URI que o app de TV abre para uma entrada (igual a TvContract.buildChannelUriForPassthroughInput).
+passthrough_uri() {
+    echo "content://android.media.tv/passthrough/$(echo "$1" | sed 's|/|%2F|g')"
+}
+
+# Amostra a CPU por N segundos pelos contadores do kernel (/proc/stat e /proc/<pid>/stat).
+# 1a linha: % ocupada da capacidade total (4 nucleos). Depois: os 12 maiores processos em % de 1 nucleo.
+cpu_sample() {
+    tv "head -1 /proc/stat; cat /proc/[0-9]*/stat 2>/dev/null; sleep $1; echo ===; head -1 /proc/stat; cat /proc/[0-9]*/stat 2>/dev/null" |
+    awk -v secs="$1" '
+        /^===/ { phase = 2; next }
+        /^cpu / { tot = 0; for (i = 2; i <= NF; i++) tot += $i; idle = $5 + $6
+                  if (phase == 2) { T2 = tot; I2 = idle } else { T1 = tot; I1 = idle }; next }
+        {   o = index($0, "("); c = 0; for (i = length($0); i > 0; i--) if (substr($0, i, 1) == ")") { c = i; break }
+            if (!o || !c) next
+            pid = substr($0, 1, o - 2); name = substr($0, o + 1, c - o - 1)
+            split(substr($0, c + 2), f, " "); t = f[12] + f[13]
+            if (phase == 2) { if (pid in a) { d[pid] = t - a[pid]; n[pid] = name } } else a[pid] = t }
+        END {
+            printf "%.1f\n", 100 * (1 - (I2 - I1) / (T2 - T1)); fflush()
+            for (p in d) if (d[p] > 0) printf "%6.1f %s\n", d[p] / secs, n[p] | "sort -rn | head -12"
+            close("sort -rn | head -12")
+        }'
+}
+
+# Classe completa da atividade de um componente (pkg/.Classe ou pkg/classe.Completa), como aparece em am_on_resume_called.
+component_class() {
+    local pkg="${1%%/*}" cls="${1#*/}"
+    case "$cls" in .*) echo "$pkg$cls" ;; *) echo "$cls" ;; esac
+}
+
+median() {
+    sort -n | awk '{a[NR]=$1} END { if (NR == 0) print "NA"; else if (NR % 2) print a[(NR + 1) / 2]; else print int((a[NR / 2] + a[NR / 2 + 1]) / 2) }'
+}
+
+# ---- servicos de acessibilidade em volta do force-stop ---------------------------------------------
+#
+# Nesta TV o `am force-stop` do launcher REMOVE da lista os servicos daquele pacote (os de outros apps
+# ficam), e o servico NAO volta quando a Home abre de novo. Upstream PR #503 reportou noutro modelo;
+# reproduzido na TV de referencia em 20/10/2026: com dois servicos na lista, um deles o nosso, o
+# force-stop deixou so o do outro app.
+#
+# Sem isto, qualquer medicao de abertura a frio derruba em silencio o remapeamento de botoes do
+# controle. Salve antes de derrubar a Home e devolva no fim. A devolucao ACRESCENTA: a lista pode ter
+# servicos de outros apps, e sobrescrever tiraria a acessibilidade de quem nao e nosso.
+ACC_SAVED=""
+# Uma copia em disco da lista: se o processo morrer por SIGKILL, fechar o terminal ou faltar energia,
+# o trap nao roda. O proximo script que chamar tv_acc_recover devolve o estado.
+ACC_BACKUP="${ACC_BACKUP:-medicoes/.acc-backup}"
+
+# O Android grava o componente em duas formas equivalentes: "pkg/pkg.Classe" e "pkg/.Classe".
+# Normaliza para comparar, senao a mesma entrada entra duas vezes na lista.
+acc_norm() {
+    local c="$1" pkg cls
+    pkg="${c%%/*}"; cls="${c#*/}"
+    case "$cls" in
+        "$pkg".*) echo "$pkg/${cls#"$pkg"}" ;;
+        *)        echo "$c" ;;
+    esac
+}
+
+tv_acc_save() {
+    ACC_SAVED=$(tv settings get secure enabled_accessibility_services)
+    case "$ACC_SAVED" in null) ACC_SAVED="" ;; esac
+    if [ -n "$ACC_SAVED" ]; then
+        mkdir -p "$(dirname "$ACC_BACKUP")"
+        printf '%s' "$ACC_SAVED" > "$ACC_BACKUP"
+        log "acessibilidade antes do teste: $ACC_SAVED"
+    fi
+    return 0
+}
+
+tv_acc_restore() {
+    [ -n "${ACC_SAVED:-}" ] || { rm -f "$ACC_BACKUP"; return 0; }
+    local cur part norm known="" merged="" added=0 old_ifs="$IFS"
+    cur=$(tv settings get secure enabled_accessibility_services)
+    case "$cur" in null) cur="" ;; esac
+    IFS=':'
+    for part in $cur; do
+        [ -n "$part" ] || continue
+        known="${known:+$known:}$(acc_norm "$part")"
+        merged="${merged:+$merged:}$part"
+    done
+    for part in $ACC_SAVED; do
+        [ -n "$part" ] || continue
+        norm=$(acc_norm "$part")
+        case ":$known:" in
+            *":$norm:"*) ;;
+            *) known="${known:+$known:}$norm"; merged="${merged:+$merged:}$part"; added=1 ;;
+        esac
+    done
+    IFS="$old_ifs"
+    if [ "$added" = 1 ]; then
+        tv settings put secure enabled_accessibility_services "$merged"
+        tv settings put secure accessibility_enabled 1
+        log "acessibilidade restaurada: $merged"
+    fi
+    rm -f "$ACC_BACKUP"
+    return 0
+}
+
+# Roda no inicio dos scripts: se um teste anterior morreu sem restaurar (SIGKILL, terminal fechado,
+# queda de energia), a lista ficou vazia e o backup sobrou. Devolve o estado antes de medir de novo.
+tv_acc_recover() {
+    [ -f "$ACC_BACKUP" ] || return 0
+    local saved cur
+    saved=$(cat "$ACC_BACKUP")
+    cur=$(tv settings get secure enabled_accessibility_services)
+    case "$cur" in null) cur="" ;; esac
+    if [ -z "$cur" ] && [ -n "$saved" ]; then
+        tv settings put secure enabled_accessibility_services "$saved"
+        tv settings put secure accessibility_enabled 1
+        log "acessibilidade recuperada de um teste interrompido: $saved"
+    fi
+    rm -f "$ACC_BACKUP"
+    return 0
+}

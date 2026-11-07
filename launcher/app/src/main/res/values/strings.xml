@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pixora TV</string>
+    <string name="inputs">Inputs</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="settings">Settings</string>
+    <string name="home_options">Options</string>
+    <string name="quick_panel_label">Pixora TV: quick settings and home screen</string>
+    <string name="quick_panel_description">Press Home to open this launcher, twice to open the system\'s quick settings panel; hold it for the same panel. Only the Home key is used: every other key passes through untouched. To keep the original home screen away it only looks at which app is in front, never at what it shows.</string>
+    <string name="choose_input">Inputs</string>
+    <string name="connected">Connected</string>
+    <string name="standby">Standby</string>
+    <string name="not_connected">No device</string>
+    <string name="live_tv">Live TV</string>
+    <string name="no_inputs">No inputs found</string>
+    <string name="good_morning">Good morning</string>
+    <string name="good_afternoon">Good afternoon</string>
+    <string name="good_evening">Good evening</string>
+    <string name="good_night">Good night</string>
+    <string name="ethernet">Ethernet</string>
+    <string name="offline">Offline</string>
+    <string name="not_available">Not available on this TV</string>
+    <string name="cant_open">Can\'t open %1$s</string>
+    <string name="date_format">EEEE  d MMMM</string>
+    <string name="dream_name">Clock</string>
+    <string name="voice">Voice</string>
+    <string name="menu_move_left">Move left</string>
+    <string name="menu_move_right">Move right</string>
+    <string name="menu_unpin">Remove from dock</string>
+    <string name="menu_pin">Pin to dock</string>
+    <string name="menu_hide">Hide</string>
+    <string name="menu_info">App info</string>
+    <!-- Shown at the end of a menu row whose value changes with Left/Right. -->
+    <string name="menu_stepper_hint" translatable="false">‹  ›</string>
+    <string name="dock_full">The dock is full: remove an app first</string>
+    <string name="opt_light_on">Ultralight mode: on</string>
+    <string name="opt_light_off">Ultralight mode: off</string>
+    <string name="opt_weather">Weather: %1$s</string>
+    <string name="opt_weather_off">Weather: off</string>
+    <string name="opt_weather_disable">Turn weather off</string>
+    <string name="opt_unhide">Show hidden apps (%1$d)</string>
+    <string name="opt_reset_dock">Restore the default dock</string>
+    <string name="weather_title">City for the weather</string>
+    <string name="weather_hint">e.g. London</string>
+    <string name="weather_not_found">City not found</string>
+    <string name="weather_failed">Could not get the weather</string>
+    <string name="weather_set">Weather: %1$s</string>
+    <!-- Brand row: the city before the weather, "GUAYAQUIL –". -->
+    <string name="weather_city" translatable="false">%1$s –</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="name_none">not set</string>
+    <string name="greet_morning">Good morning, %1$s.</string>
+    <string name="greet_afternoon">Good afternoon, %1$s.</string>
+    <string name="greet_night">Good evening, %1$s.</string>
+    <string name="greet_morning_all">Good morning, everyone.</string>
+    <string name="greet_afternoon_all">Good afternoon, everyone.</string>
+    <string name="greet_night_all">Good evening, everyone.</string>
+    <string name="opt_greet">Greet: %1$s</string>
+    <string name="greet_everyone">everyone</string>
+    <string name="greet_need_name">Type your name first (Options &gt; Your name).</string>
+    <string name="sub_morning">All set to start the day.</string>
+    <string name="sub_afternoon">All set for your afternoon.</string>
+    <string name="sub_night">Time to relax.</string>
+    <string name="opt_name">Your name: %1$s</string>
+    <string name="opt_message">Message: %1$s</string>
+    <string name="opt_message_auto">automatic</string>
+    <string name="opt_accent">Accent colour: %1$s</string>
+    <string name="opt_motion_on">Smooth motion: on</string>
+    <string name="opt_motion_off">Smooth motion: off</string>
+    <string name="opt_profiles">Family profiles: %1$d</string>
+    <string name="opt_columns">Columns: %1$d</string>
+    <string name="opt_experience">Experience: %1$s</string>
+    <string name="experience_title">Experience</string>
+    <string name="experience_performance">Performance (default): black background, instant focus</string>
+    <string name="experience_balanced">Balanced: smooth focus, black background</string>
+    <string name="experience_visual" formatted="false">Visual: smooth focus + Aurora\nMeasured on v0.5.6: +9 MB and 0.19% → 6.89% delayed frames</string>
+    <string name="experience_performance_short">Performance</string>
+    <string name="experience_balanced_short">Balanced</string>
+    <string name="experience_visual_short">Visual</string>
+    <string name="experience_custom_short">Custom</string>
+    <string name="opt_wallpaper_on">Wallpaper: Aurora</string>
+    <string name="opt_wallpaper_off">Wallpaper: black</string>
+    <string name="wallpaper_title">Aurora wallpaper</string>
+    <string name="wallpaper_cost" formatted="false">Measured on the reference TV with v0.5.6: about 9 MB more memory, and delayed frames rose from 0.19% (black) to 6.89% (Aurora) in the navigation test. Median key response stayed at 17 ms. You can return to black at any time.</string>
+    <string name="wallpaper_enable">Enable background</string>
+    <string name="wallpaper_cost_unmeasured">This image background has not been measured on this TV. If you notice extra stutter, return to black.</string>
+    <string name="opt_wallpaper">Wallpaper: %1$s</string>
+    <!-- Same order as MainActivity.BG_IDS. -->
+    <string-array name="wallpaper_names">
+        <item>Black</item>
+        <item>Midnight</item>
+        <item>Forest</item>
+        <item>Plum</item>
+        <item>Wine</item>
+        <item>Graphite</item>
+        <item>Petrol</item>
+        <item>Aurora</item>
+        <item>Earth at night</item>
+        <item>Nebula blur</item>
+        <item>Milky Way blur</item>
+        <item>Star trails blur</item>
+    </string-array>
+    <string name="wallpaper_light">Ultralight mode always uses the black background.</string>
+    <string name="columns_title">Columns</string>
+    <string name="profiles_title">Family profiles</string>
+    <string name="profile_save">Save current profile</string>
+    <string name="profile_name_title">Profile name</string>
+    <string name="profile_saved">Profile %1$s saved</string>
+    <string name="profile_load">Load</string>
+    <string name="profile_delete">Delete</string>
+    <string name="profile_deleted">Profile %1$s deleted</string>
+    <string name="profile_empty">No profiles yet. Save the current look to create the first one.</string>
+    <string name="name_title">Your name</string>
+    <string name="message_title">Message under the greeting</string>
+    <string name="message_hint">Leave empty for the automatic one</string>
+    <string name="rec_tvlauncher">Re-enable the original home screen</string>
+    <string name="rec_settings">Open Settings</string>
+    <string name="rec_reset">Restore home screen defaults</string>
+    <string name="rec_close">Close</string>
+    <string name="rec_reset_confirm">Your name, greeting, message, accent colour, experience, columns, background, family profiles, dock, app order and hidden apps go back to the defaults. Weather and news stay as they are.</string>
+    <string name="rec_reset_yes">Restore</string>
+    <string-array name="accent_names">
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Orange</item>
+        <item>Pink</item>
+        <item>Purple</item>
+        <item>White</item>
+    </string-array>
+    <string name="remap_label">Pixora TV: remote buttons</string>
+    <string name="remap_description">When the remote\'s Globoplay button opens Globoplay, switches to another app instead. Globoplay still opens from the Home screen. It does not read the screen or what you type; it only notices Globoplay opening.</string>
+    <!-- Mirrors remap_description, for the optional Input-button service: switches the remote's Input/Source
+         key (KEYCODE_TV / KEYCODE_TV_INPUT / KEYCODE_MEDIA_RECORD depending on the remote) to the launcher's
+         own Inputs dropdown, which the launcher's open Inputs pill already offers. -->
+    <string name="input_key_service_description">Opens the Inputs menu when the remote\'s Input/Source button is pressed. Different remotes send different key codes for that button; this service catches them all. Off by default.</string>
+    <string name="opt_remap_on">Globoplay button: opens %1$s</string>
+    <string name="opt_remap_off">Globoplay button: default (Globoplay)</string>
+    <string name="opt_remap_service">Globoplay button: turn on the remapper</string>
+    <!-- Weather condition after the temperature ("23° CLOUDY"); upper case on purpose. -->
+    <string name="wx_clear">CLEAR SKY</string>
+    <string name="wx_few_clouds">FEW CLOUDS</string>
+    <string name="wx_overcast">CLOUDY</string>
+    <string name="wx_fog">FOG</string>
+    <string name="wx_drizzle">DRIZZLE</string>
+    <string name="wx_rain">RAIN</string>
+    <string name="wx_snow">SNOW</string>
+    <string name="wx_showers">RAIN SHOWERS</string>
+    <string name="wx_thunderstorm">THUNDERSTORMS</string>
+
+    <!-- Input cards: HDMI/AV ports as tiles on Home. -->
+    <string name="input_cards">Input cards</string>
+    <string name="input_card_name">Name: %1$s</string>
+    <string name="input_card_name_default">Same as the input</string>
+    <string name="input_card_icon">Icon: %1$s</string>
+    <string name="input_card_icon_title">Icon</string>
+    <string name="input_card_shown">Show on Home: %1$s</string>
+    <string name="card_name_title">Card name</string>
+    <string name="icon_game">Game</string>
+    <string name="icon_movie">Movie</string>
+    <string name="icon_music">Music</string>
+    <string name="icon_computer">Computer</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+
+    <!-- News (RSS) row. -->
+    <string name="news_settings_title">News</string>
+    <string name="news_enabled">News row: %1$s</string>
+    <string name="news_full">News in full screen</string>
+    <string name="news_idle_enabled">Screen saver when idle: %1$s</string>
+    <string name="news_empty">No news loaded yet</string>
+    <string name="news_custom">Feed %1$d: %2$s</string>
+    <string name="news_custom_none">None</string>
+    <string name="news_custom_title">Feed URL</string>
+    <string name="news_custom_hint">https://example.com/feed/</string>
+    <string name="news_cinema">Photo background: %1$s</string>
+    <string name="news_rotate">Rotate headlines when idle: %1$s</string>
+    <string name="news_refresh">Refresh news every: %1$d min</string>
+    <string name="news_image_age">Keep photos for: %1$d h</string>
+    <string name="news_meta">%1$s · %2$s</string>
+    <string name="news_clear">Clear news now</string>
+    <string name="news_open_hint">Press OK to open</string>
+    <!-- Live scores (SportsFeed, ScoresActivity, SportsSettingsActivity). -->
+    <string name="scores_title">Scores</string>
+    <string name="scores_edit">Choose what to follow</string>
+    <string name="scores_enabled">Scores: %1$s</string>
+    <string name="scores_slot">Follow %1$d: %2$s</string>
+    <string name="scores_none">None</string>
+    <string name="scores_pick_title">League or sport</string>
+    <string name="scores_whole_league">The whole league</string>
+    <string name="scores_loading_teams">Loading teams…</string>
+    <string name="scores_apikey">API-Football key: %1$s</string>
+    <string name="scores_apikey_none">none (optional)</string>
+    <string name="scores_apikey_set">saved</string>
+    <string name="scores_apikey_title">API-Football key</string>
+    <string name="scores_apikey_hint">Used only when ESPN does not answer</string>
+    <string name="scores_following">%1$d followed</string>
+    <string name="scores_loading">Loading…</string>
+    <string name="scores_updated">Updated at %1$s</string>
+    <string name="scores_empty_setup">Pick leagues or teams with the pencil above (or Options &gt; Scores).</string>
+    <string name="scores_no_games">No games these days</string>
+    <string name="scores_error">Could not load</string>
+    <string name="scores_final">Final</string>
+    <string name="scores_live">Live</string>
+    <string name="scores_f1_race">Race</string>
+    <string name="scores_f1_qual">Qualifying</string>
+    <string name="scores_f1_sprint">Sprint</string>
+    <string name="scores_f1_session">Session</string>
+    <string name="greet_morning_short">Good morning.</string>
+    <string name="greet_afternoon_short">Good afternoon.</string>
+    <string name="greet_night_short">Good evening.</string>
+    <string name="home_lost_title">Google TV took the home screen back</string>
+    <string name="home_lost_message">The Home button opens Google TV again. Make this launcher the home screen again?</string>
+    <string name="home_lost_fix">Restore</string>
+    <string name="home_lost_later">Not now</string>
+    <string name="home_lost_adb">This device does not let you choose the home screen here. From a computer, run:\nadb shell cmd role add-role-holder --user 0 android.app.role.HOME %1$s</string>
+    <string name="home_restored">Done: this launcher is the home screen again.</string>
+    <string name="service_off_title">Home service is off</string>
+    <string name="service_off_message">The accessibility service «%1$s» is off. Without it, pressing Home twice opens Settings instead of the quick settings panel, and the home screen is not guarded. Turn it on in Settings &gt; System &gt; Accessibility, or run instalar.ps1 again.</string>
+    <string name="service_off_open">Open Accessibility</string>
+    <string name="menu_move_up">Move up</string>
+    <string name="menu_move_down">Move down</string>
+    <string name="opt_reset_order">Restore the app order</string>
+    <!-- Pixora TV name and the updater (Updater, UpdateReceiver). -->
+    <string name="app_slogan">A new experience for Android / Google TV</string>
+    <string name="opt_update_auto">Check for updates automatically: %1$s</string>
+    <string name="update_checking">Checking for updates…</string>
+    <string name="update_about_title">Pixora TV %1$s</string>
+    <string name="update_none">This is the latest published version.</string>
+    <string name="update_check_failed">Could not check for updates: %1$s</string>
+    <string name="update_no_apk">The latest release has no APK attached.</string>
+    <string name="update_title">Pixora TV %1$s is available</string>
+    <string name="update_message">You have version %1$s.</string>
+    <string name="update_news">What\'s new:</string>
+    <string name="update_now">Update</string>
+    <string name="update_later">Not now</string>
+    <string name="update_downloading">Downloading… %1$d%%</string>
+    <string name="update_installing">Opening the Android installer…</string>
+    <string name="update_failed">Update failed: %1$s</string>
+    <string name="update_cancelled">Update cancelled</string>
+    <string name="update_permission_title">Allow Pixora TV to install its updates</string>
+    <string name="update_permission_message">Android asks before an app can install apps. On the next screen turn it on for Pixora TV (Unknown sources), come back and choose Update again. From a computer:\nadb shell appops set %1$s REQUEST_INSTALL_PACKAGES allow</string>
+    <string name="update_permission_open">Open the setting</string>
+    <string name="update_err_network">no connection to GitHub, or the download was cut off</string>
+    <string name="update_err_http">GitHub answered %1$d</string>
+    <string name="update_err_none_published">nothing is published on GitHub yet (%1$d)</string>
+    <string name="update_err_checksum">the downloaded file does not match the SHA-256 published on GitHub</string>
+    <string name="update_err_package">the APK is not a newer Pixora TV signed with the same key</string>
+    <string name="update_err_install">Android did not accept the installation</string>    <!-- Options panel sections (MainActivity.optionsFor). -->
+    <string name="sec_header_personal">Personalization</string>
+    <string name="sec_header_system">System</string>
+    <string name="sec_profile">Profile</string>
+    <string name="sec_look">Appearance</string>
+    <string name="sec_weather">Weather</string>
+    <string name="sec_apps">Apps and dock</string>
+    <string name="sec_apps_summary">Dock, app order and hidden apps</string>
+    <string name="sec_updates">Updates</string>
+    <string name="sec_recovery">Recovery</string>
+    <string name="sec_recovery_summary">Original home screen, Settings and defaults</string>
+    <string name="opt_update_check">Check for updates now</string></resources>

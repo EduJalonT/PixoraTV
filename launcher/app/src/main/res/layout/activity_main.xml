@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- No background: the window is already black (Theme.TvHome), a second full-screen fill only costs GPU time. -->
+
+    <!-- Static wallpaper. Decoded on a worker thread at RGB_565 and hidden in ultralight mode; no blur,
+         parallax or animation is computed on the TV. -->
+    <ImageView
+        android:id="@+id/wallpaper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:focusable="false"
+        android:clickable="false"
+        android:importantForAccessibility="no"
+        android:contentDescription="@null" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="56dp"
+        android:paddingEnd="56dp"
+        android:paddingTop="26dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Eddy TV header: brand row (name, clock, date, optional weather), greeting, message. -->
+            <LinearLayout
+                android:id="@+id/leftBlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:orientation="horizontal"
+                    android:baselineAligned="true">
+
+                    <!-- Cast Name · clock Time · calendar Date · City – weather icon Weather. Font Awesome
+                         icons (res/drawable/fa_*, CC BY 4.0) tinted like their text; the brand's tint
+                         follows the accent (MainActivity.applyAccent). -->
+                    <TextView
+                        android:id="@+id/brand"
+                        style="@style/BrandText"
+                        android:drawableStart="@drawable/fa_chromecast"
+                        android:drawablePadding="7dp"
+                        android:fontFamily="@font/outfit_bold" />
+
+                    <TextView style="@style/BrandSeparator" />
+
+                    <TextClock
+                        android:id="@+id/clock"
+                        style="@style/BrandText"
+                        android:drawableStart="@drawable/fa_clock"
+                        android:drawablePadding="6dp"
+                        android:drawableTint="#E6FFFFFF"
+                        android:format12Hour="h:mm a"
+                        android:format24Hour="HH:mm"
+                        android:textColor="#E6FFFFFF" />
+
+                    <TextView style="@style/BrandSeparator" />
+
+                    <TextClock
+                        android:id="@+id/date"
+                        style="@style/BrandText"
+                        android:drawableStart="@drawable/fa_calendar"
+                        android:drawablePadding="6dp"
+                        android:drawableTint="#8CFFFFFF"
+                        android:format12Hour="@string/date_format"
+                        android:format24Hour="@string/date_format" />
+
+                    <TextView
+                        android:id="@+id/weatherSeparator"
+                        style="@style/BrandSeparator"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/weatherCity"
+                        style="@style/BrandText"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/weather"
+                        style="@style/BrandText"
+                        android:drawablePadding="6dp"
+                        android:drawableTint="#8CFFFFFF"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/greeting"
+                    android:layout_width="390dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="42sp"
+                    android:fontFamily="@font/outfit_light"
+                    android:letterSpacing="-0.02"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="24sp"
+                    android:autoSizeMaxTextSize="42sp"
+                    android:autoSizeStepGranularity="2sp" />
+            </LinearLayout>
+
+            <!-- Outside leftBlock so a message that wraps to a second line does not push the pills down. -->
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/leftBlock"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="8dp"
+                android:maxWidth="390dp"
+                android:textColor="#99FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/outfit_regular"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <!-- Fixed offset from the top, where the pills sat when they followed a one-line header, so
+                 neither the greeting's auto-size nor a two-line message moves them. -->
+            <LinearLayout
+                android:id="@+id/topButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="53dp"
+                android:orientation="horizontal">
+
+                <!-- Every pill is an icon of the same size, content first (inputs, scores, news), then the
+                     system (voice, Wi-Fi, settings, options). The names live in contentDescription. -->
+                <TextView
+                    android:id="@+id/btnInputs"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_input"
+                    android:contentDescription="@string/inputs"
+                    android:nextFocusDown="@+id/grid" />
+
+                <!-- Live scores (ScoresActivity). Shown only while Marcadores is on; a red dot while a
+                     followed game is live (MainActivity.updateScoresDot). -->
+                <TextView
+                    android:id="@+id/btnScores"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_trophy"
+                    android:contentDescription="@string/scores_title"
+                    android:visibility="gone"
+                    android:nextFocusDown="@+id/grid" />
+
+                <!-- The launcher's own screensaver, the news in full screen (NewsFullActivity).
+                     Google TV lets no app start its own screensaver. Shown only while the news row is on. -->
+                <TextView
+                    android:id="@+id/btnScreensaver"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_moon"
+                    android:contentDescription="@string/news_full"
+                    android:visibility="gone"
+                    android:nextFocusDown="@+id/grid" />
+
+                <!-- Opens the existing Google Assistant (ACTION_ASSIST), no second listener. -->
+                <TextView
+                    android:id="@+id/btnVoice"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_mic"
+                    android:contentDescription="@string/voice"
+                    android:nextFocusDown="@+id/grid" />
+
+                <!-- The network's name is read out (contentDescription), not printed. -->
+                <TextView
+                    android:id="@+id/btnWifi"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_wifi"
+                    android:contentDescription="@string/wifi"
+                    android:nextFocusDown="@+id/grid" />
+
+                <TextView
+                    android:id="@+id/btnSettings"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_settings"
+                    android:contentDescription="@string/settings"
+                    android:nextFocusDown="@+id/grid" />
+
+                <!-- Chromecast with Google TV: its remote has no Menu key, so the launcher's own options
+                     (otherwise Menu or hold OK on Settings) get a pill of their own. Icon only, like
+                     Voice: a fifth text pill ran into the greeting on a 960dp-wide (1080p xhdpi) screen. -->
+                <TextView
+                    android:id="@+id/btnHomeOptions"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_edit"
+                    android:contentDescription="@string/home_options"
+                    android:nextFocusDown="@+id/grid" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/newsCarousel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <com.edujalont.tvhome.NewsBackdropView
+                android:id="@+id/newsBackdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no" />
+
+            <!-- TESTE TEMPORARIO: gradiente removido para isolar o jank. -->
+
+            <LinearLayout
+                android:id="@+id/newsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="150dp"
+                android:layout_marginBottom="34dp"
+                android:orientation="vertical"
+                android:importantForAccessibility="no">
+
+                <TextView
+                    android:id="@+id/newsKicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.14" />
+
+                <TextView
+                    android:id="@+id/newsHeadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/outfit_light"
+                    android:letterSpacing="-0.01"
+                    android:lineSpacingExtra="2dp" />
+
+                <TextView
+                    android:id="@+id/newsSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:includeFontPadding="false"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="#B8FFFFFF"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/outfit_light" />
+
+                <TextView
+                    android:id="@+id/newsMeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="#99FFFFFF"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.06" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/newsDots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="36dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:importantForAccessibility="no" />
+        </FrameLayout>
+
+
+        <!-- The wrapper clips at the grid's edge; the grid itself must not clip so scaled tiles can overflow their cells. -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="22dp"
+                android:paddingEnd="22dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="40dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:focusedByDefault="true"
+                android:descendantFocusability="afterDescendants" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- The single floating glass highlight that springs between tiles. -->
+    <com.edujalont.tvhome.GlassView
+        android:id="@+id/glass"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:alpha="0"
+        android:importantForAccessibility="no" />
+</FrameLayout>

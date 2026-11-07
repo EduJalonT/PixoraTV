@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Optional weather (Open-Meteo), fetched at most hourly while Home is on screen. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- Needed on Android 10 to read the Wi-Fi network name; granted over adb at install time. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Updater: installs the launcher's own new release from GitHub through Android's installer. -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Android 12+: lets a later self-update skip the prompt once this app installed itself. -->
+    <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:banner="@drawable/banner"
+        android:theme="@style/Theme.TvHome"
+        android:allowBackup="false">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true"
+            android:excludeFromRecents="true"
+            android:clearTaskOnLaunch="true"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- Also listed as an app, so it can be tried from the stock launcher's Apps row while the
+                 stock launcher is still the system Home. The launcher hides its own tile. -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- HDMI/AV input cards: reachable from the Home options menu. Not exported: only the launcher opens it. -->
+        <activity
+            android:name=".InputCardsActivity"
+            android:exported="false"
+            android:label="@string/input_cards" />
+
+        <!-- News (RSS): the settings screen and the full-screen reader, both opened from Home. -->
+        <activity
+            android:name=".NewsSettingsActivity"
+            android:exported="false"
+            android:label="@string/news_settings_title" />
+        <activity
+            android:name=".NewsFullActivity"
+            android:exported="false"
+            android:label="@string/news_settings_title" />
+        <!-- Live scores: the panel (trophy on the top bar) and its settings. -->
+        <activity
+            android:name=".ScoresActivity"
+            android:exported="false"
+            android:label="@string/scores_title" />
+        <activity
+            android:name=".SportsSettingsActivity"
+            android:exported="false"
+            android:label="@string/scores_title" />
+        <!-- The article reader: the news link inside the launcher (this TV's browser ignores it). -->
+        <activity
+            android:name=".NewsReaderActivity"
+            android:exported="false"
+            android:label="@string/news_settings_title" />
+
+        <!-- Result of the updater's install session (Updater.install). -->
+        <receiver
+            android:name=".UpdateReceiver"
+            android:exported="false" />
+
+        <!-- Copies the Home settings between TVs over adb (ConfigReceiver). Exported, but only callers
+             holding WRITE_SECURE_SETTINGS (adb's shell, the system) can send to it. -->
+        <receiver
+            android:name=".ConfigReceiver"
+            android:exported="true"
+            android:permission="android.permission.WRITE_SECURE_SETTINGS" />
+
+        <!-- Globoplay button -> another app. Off until enabled in Accessibility settings (or over adb). -->
+        <service
+            android:name=".KeyRemapService"
+            android:label="@string/remap_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/key_remap" />
+        </service>
+
+        <!-- Screensaver: pick it in Settings, or `settings put secure screensaver_components
+             com.edujalont.tvhome/.ClockDream` over adb. -->
+        <service
+            android:name=".ClockDream"
+            android:label="@string/dream_name"
+            android:exported="true"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <!-- The remote's Input/Source button (KEYCODE_TV / KEYCODE_TV_INPUT / KEYCODE_MEDIA_RECORD)
+             opens the launcher's own Inputs dropdown; see InputKeyService. -->
+        <service
+            android:name=".InputKeyService"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/input_key_service" />
+        </service>
+
+        <!-- Double press of Home -> the system's quick settings panel (Chromecast with Google TV); see
+             QuickPanelService. Off until enabled in Accessibility settings (or over adb). -->
+        <service
+            android:name=".QuickPanelService"
+            android:exported="true"
+            android:label="@string/quick_panel_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/quick_panel_service" />
+        </service>
+    </application>
+</manifest>

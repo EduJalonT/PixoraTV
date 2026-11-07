@@ -1,0 +1,9 @@
+.gradle/
+build/
+app/build/
+local.properties
+*.iml
+# Release signing: the key and its passwords never go to GitHub. Keep a backup of both elsewhere.
+keystore.properties
+*.jks
+*.keystore

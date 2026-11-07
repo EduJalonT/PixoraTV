@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Launcher configuration for Chromecast with Google TV (Pixora TV). Edit, then
+  rebuild. List installed packages with `adb shell pm list packages`.
+-->
+<resources>
+
+    <!-- Apps pinned to the dock row at the bottom, in this order, as many as there are columns.
+         Missing apps are skipped, and the dock can be changed on the TV (hold OK on a tile). -->
+    <string-array name="dock_apps">
+        <item>com.google.android.youtube.tv</item>
+        <item>com.netflix.ninja</item>
+        <item>com.amazon.amazonvideo.livingroom</item>
+        <item>com.disney.disneyplus</item>
+        <item>com.spotify.tv.android</item>
+    </string-array>
+
+    <!-- Apps never shown as tiles: Settings has its own button, Google TV Home stays installed only as
+         the recovery home screen, and a TV's Live TV app is in the Inputs menu. -->
+    <string-array name="hidden_apps">
+        <item>com.android.tv.settings</item>
+        <item>com.google.android.apps.tv.launcherx</item>
+        <item>com.tcl.tv</item>
+    </string-array>
+
+    <!-- The TV's Live TV / tuner app (HDMI, AV and antenna), offered in the Inputs menu: the first one
+         installed. None on a Chromecast, which has no tuner; com.tcl.tv on TCL Android TV sets. -->
+    <string-array name="live_tv_packages" translatable="false">
+        <item>com.tcl.tv</item>
+    </string-array>
+
+    <!-- TVs with no TvInputManager have no HDMI list to read, but their own source-selection panel
+         still switches inputs (some Android TV 9 sets). When nothing could be listed, the Inputs menu
+         offers one row that starts this service: component first, then action. The component can also
+         be an activity, for sets whose panel is a dialog (BYINTEK U4). With no Live TV app either, the
+         Inputs pill opens the panel directly instead of a menu. Leave empty to omit. -->
+    <string name="source_panel_service" translatable="false"></string>
+    <string name="source_panel_action" translatable="false"></string>
+
+    <!-- Tiles per row in the grid; the dock always has this many slots. Tiles are 180dp wide at 4 columns and
+         shrink to fit from 5 up (about 144dp at 5, 117dp at 6 on a 1080p TV). -->
+    <integer name="columns">4</integer>
+
+    <!-- Vendor keycodes that mean the remote's Settings button, in addition to Android's KEYCODE_SETTINGS.
+         Some Google TV remotes may send 83; confirm with `getevent -lt` on the TV before adding it here.
+         Empty by default so a vendor keycode is never hijacked without a measurement. -->
+    <integer-array name="settings_key_keycodes" />
+</resources>

@@ -1,0 +1,48 @@
+tools/venv/
+tools/adbkey/
+tools/__pycache__/
+tests/__pycache__/
+__pycache__/
+launcher/.gradle/
+launcher/build/
+launcher/app/build/
+launcher/local.properties
+# your own TV's dumps (serial, android_id, device names) stay local
+backup/
+.DS_Store
+
+# ---- Pixora TV additions ---------------------------------------------------------
+# Local/private data: personal Eddy TV config, raw dumps, logs, screenshots of personal screens.
+private/
+medicoes/
+auditoria/
+diagnostics/
+*.log
+logcat*.txt
+dumpsys*.txt
+getprop*.txt
+state.json
+# Raw measurement folders produced by scripts/pixora-*.sh
+# Raw app-timeline captures (screenshots, logcat) also stay local
+investigacao/
+
+# Secrets and signing material: never commit
+adbkey
+adbkey.pub
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+*.pem
+*.p12
+.env
+.env.*
+!.env.example
+
+# APKs (build outputs and app backups pulled from the TV)
+*.apk
+*.aab
+*.apks
+
+# Saida dos testes de recursos (screenshots de trabalho, contem o nome e a cidade configurados)
+etapa2/

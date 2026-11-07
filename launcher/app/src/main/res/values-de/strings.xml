@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pixora TV</string>
+    <string name="inputs">Quellen</string>
+    <string name="wifi">WLAN</string>
+    <string name="settings">Einstellungen</string>
+    <string name="home_options">Optionen</string>
+    <string name="quick_panel_label">Pixora TV: Schnelleinstellungen und Startbildschirm</string>
+    <string name="quick_panel_description">Home öffnet diesen Launcher; zweimal gedrückt oder gehalten öffnet es die Schnelleinstellungen des Systems. Nur die Home-Taste wird verwendet: alle anderen Tasten bleiben unberührt. Damit der ursprüngliche Startbildschirm nicht erscheint, prüft er nur, welche App vorne ist, nie, was sie zeigt.</string>
+    <string name="choose_input">Quellen</string>
+    <string name="connected">Verbunden</string>
+    <string name="standby">Standby</string>
+    <string name="not_connected">Kein Gerät</string>
+    <string name="live_tv">Live TV</string>
+    <string name="no_inputs">Keine Quellen gefunden</string>
+    <string name="good_morning">Guten Morgen</string>
+    <string name="good_afternoon">Guten Tag</string>
+    <string name="good_evening">Guten Abend</string>
+    <string name="good_night">Gute Nacht</string>
+    <string name="ethernet">LAN</string>
+    <string name="offline">Offline</string>
+    <string name="not_available">Auf diesem TV nicht verfügbar</string>
+    <string name="cant_open">%1$s lässt sich nicht öffnen</string>
+    <string name="date_format">EEEE, d. MMMM</string>
+
+    <!-- Input cards: HDMI/AV ports as tiles on Home. -->
+    <string name="input_cards">Eingangskarten</string>
+    <string name="input_card_name">Name: %1$s</string>
+    <string name="input_card_name_default">Wie der Eingang</string>
+    <string name="input_card_icon">Symbol: %1$s</string>
+    <string name="input_card_icon_title">Symbol</string>
+    <string name="input_card_shown">Auf Home anzeigen: %1$s</string>
+    <string name="card_name_title">Kartenname</string>
+    <string name="icon_game">Spiel</string>
+    <string name="icon_movie">Film</string>
+    <string name="icon_music">Musik</string>
+    <string name="icon_computer">Computer</string>
+    <string name="on">An</string>
+    <string name="off">Aus</string>
+
+    <!-- News (RSS). -->
+    <string name="news_settings_title">Nachrichten</string>
+    <string name="news_enabled">Nachrichtenzeile: %1$s</string>
+    <string name="news_full">Nachrichten im Vollbild</string>
+    <string name="news_idle_enabled">Bildschirmschoner bei Inaktivität: %1$s</string>
+    <string name="news_empty">Noch keine Nachrichten geladen</string>
+    <string name="news_custom">Feed %1$d: %2$s</string>
+    <string name="news_custom_none">Keiner</string>
+    <string name="news_custom_title">Feed-Adresse</string>
+    <string name="news_custom_hint">https://beispiel.de/feed/</string>
+    <string name="news_cinema">Fotohintergrund: %1$s</string>
+    <string name="news_rotate">Schlagzeile bei Inaktivität wechseln: %1$s</string>
+    <string name="news_refresh">Nachrichten aktualisieren alle: %1$d min</string>
+    <string name="news_image_age">Fotos behalten für: %1$d h</string>
+    <string name="news_meta">%1$s · %2$s</string>
+    <string name="news_clear">Nachrichten jetzt leeren</string>
+    <string name="news_open_hint">OK zum Öffnen drücken</string>
+    <string name="menu_move_up">Nach oben</string>
+    <string name="menu_move_down">Nach unten</string>
+    <string name="opt_reset_order">App-Reihenfolge zurücksetzen</string>
+</resources>
