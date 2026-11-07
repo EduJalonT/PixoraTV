@@ -9,9 +9,9 @@ En Google TV sustituye a Google TV Home como pantalla de inicio sin desactivarlo
 instalado como mecanismo de recuperación y conserva su panel de ajustes rápidos. En Android TV es una
 app de inicio normal.
 
-> Versión **2026.11.07.007**, la primera de Pixora TV. Su base se ha usado a diario en dos Chromecast
-> con Google TV (Android 14) y en un televisor TCL con Android TV 9; sus funciones se han probado en un
-> Chromecast con Google TV, pero esta compilación aún no se ha instalado en ninguna TV. Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
+> Versión **2026.11.07.009**. Su base se ha usado a diario en dos Chromecast
+> con Google TV (Android 14) y en un televisor TCL con Android TV 9; esta versión se ha probado en un
+> Chromecast con Google TV, aún no en Android TV 9. Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
 >
 > Las versiones siguen la fecha: `AAAA.MM.DD.NNN` (versionCode `AAMMDDNNN`).
 
@@ -37,7 +37,7 @@ app de inicio normal.
 | Saludo | «Buenos días / Buenas tardes / Buenas noches», con tu nombre o «a todos», según la hora del dispositivo |
 | Noticias RSS | Hasta 5 feeds propios (Opciones > Noticias); la fila se pliega al bajar a las apps |
 | Salvapantallas | Botón con icono de luna: noticias a pantalla completa (solo con la fila de noticias activa) |
-| Marcadores en vivo | Botón con icono de trofeo (punto rojo si hay algo en vivo): hasta 10 seguimientos (ligas, un equipo de una liga, NBA, NFL, MLB, NHL, F1) elegidos en Opciones > Marcadores. Datos de ESPN; API-Football con tu propia clave si ESPN no responde; OpenF1 para el orden en vivo de la F1 cuando responde. Desactivado por defecto |
+| Marcadores en vivo | Botón con icono de trofeo (punto rojo si hay algo en vivo): hasta 10 seguimientos (ligas, un equipo de una liga, selecciones de fútbol por confederación o una selección, NBA, NFL, MLB, NHL, F1) elegidos en Opciones > Marcadores, con el logo de cada competición o confederación, el escudo de cada equipo y la bandera de cada piloto. Datos de ESPN; API-Football con tu propia clave si ESPN no responde; OpenF1 para el orden en vivo de la F1 cuando responde. Desactivado por defecto |
 | Barra superior | Todos los botones son iconos del mismo tamaño: contenido (entradas, marcadores, noticias) y después sistema (voz, Wi-Fi, Ajustes, opciones); el nombre de la red ya no se imprime |
 | Dock y apps | Mantener OK sobre un icono > Mover; todo el dock se mueve como una fila |
 | Entradas | Solo si el dispositivo tiene entradas: HDMI, AV y la app de TV del fabricante (TCL) |

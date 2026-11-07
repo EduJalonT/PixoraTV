@@ -55,9 +55,11 @@ public final class SportsSettingsActivity extends Activity {
 
     /** First step of a slot: which competition (or none). */
     private void pickComp(int slot) {
-        String[] names = new String[SportsFeed.CATALOG.length + 1];
+        // "None", the national teams (by confederation, next step), then every competition.
+        String[] names = new String[SportsFeed.CATALOG.length + 2];
         names[0] = getString(R.string.scores_none);
-        for (int i = 0; i < SportsFeed.CATALOG.length; i++) names[i + 1] = SportsFeed.CATALOG[i].name;
+        names[1] = getString(R.string.scores_national);
+        for (int i = 0; i < SportsFeed.CATALOG.length; i++) names[i + 2] = SportsFeed.CATALOG[i].name;
         new AlertDialog.Builder(this)
                 .setTitle(R.string.scores_pick_title)
                 .setItems(names, (d, which) -> {
@@ -65,10 +67,25 @@ public final class SportsSettingsActivity extends Activity {
                         save(slot, "");
                         return;
                     }
-                    SportsFeed.Comp c = SportsFeed.CATALOG[which - 1];
+                    if (which == 1) {
+                        pickConfederation(slot);
+                        return;
+                    }
+                    SportsFeed.Comp c = SportsFeed.CATALOG[which - 2];
                     if (c.f1) save(slot, c.id);
                     else pickTeam(slot, c);
                 })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    /** National teams: which confederation, then all of its national teams or one of them. */
+    private void pickConfederation(int slot) {
+        String[] names = new String[SportsFeed.NATIONAL.length];
+        for (int i = 0; i < names.length; i++) names[i] = SportsFeed.NATIONAL[i].name;
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.scores_pick_confederation)
+                .setItems(names, (d, which) -> pickTeam(slot, SportsFeed.NATIONAL[which]))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
@@ -91,7 +108,7 @@ public final class SportsSettingsActivity extends Activity {
                     return;
                 }
                 String[] names = new String[got.size() + 1];
-                names[0] = getString(R.string.scores_whole_league);
+                names[0] = getString(c.national ? R.string.scores_all_national : R.string.scores_whole_league);
                 for (int i = 0; i < got.size(); i++) names[i + 1] = got.get(i)[1];
                 new AlertDialog.Builder(this)
                         .setTitle(c.name)

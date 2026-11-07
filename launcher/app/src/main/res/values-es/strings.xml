@@ -150,6 +150,9 @@
     <string name="scores_slot">Seguimiento %1$d: %2$s</string>
     <string name="scores_none">Ninguno</string>
     <string name="scores_pick_title">Liga o deporte</string>
+    <string name="scores_national">Selecciones de fútbol</string>
+    <string name="scores_pick_confederation">Confederación</string>
+    <string name="scores_all_national">Todas las selecciones</string>
     <string name="scores_whole_league">Toda la liga</string>
     <string name="scores_loading_teams">Cargando equipos…</string>
     <string name="scores_apikey">Clave de API-Football: %1$s</string>

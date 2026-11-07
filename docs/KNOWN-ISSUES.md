@@ -2,8 +2,8 @@
 
 La base de Pixora TV se ha usado en dos Chromecast con Google TV (Android 14) y en un televisor TCL con
 Android TV 9. Sus funciones (instalación, arranque tras reiniciar, panel de opciones, noticias y
-marcadores) se han probado en un Chromecast con Google TV; la versión 2026.11.07.007 aún no se ha
-instalado en ninguna TV, y el actualizador y Android TV 9 tampoco se han probado.
+marcadores, con logos y selecciones) se han probado en un Chromecast con Google TV con la versión
+2026.11.07.009; el actualizador y Android TV 9 aún no se han probado.
 
 ## Google TV (Chromecast)
 

@@ -58,15 +58,46 @@ final class SportsFeed {
         final String id, name, espn;
         final int apiFootball;
         final boolean f1;
+        /**
+         * National teams of one confederation: espn is its World Cup qualifiers (team list and the
+         * confederation's logo), more its other national-team competitions.
+         */
+        final boolean national;
+        final String[] more;
 
         Comp(String id, String name, String espn, int apiFootball, boolean f1) {
+            this(id, name, espn, apiFootball, f1, false, new String[0]);
+        }
+
+        private Comp(String id, String name, String espn, int apiFootball, boolean f1, boolean national, String[] more) {
             this.id = id;
             this.name = name;
             this.espn = espn;
             this.apiFootball = apiFootball;
             this.f1 = f1;
+            this.national = national;
+            this.more = more;
+        }
+
+        static Comp national(String id, String name, String qualifiers, String... more) {
+            return new Comp(id, name, qualifiers, 0, false, true, more);
         }
     }
+
+    /** National-team football by confederation ("Selecciones de fútbol" in the settings). */
+    static final Comp[] NATIONAL = {
+            Comp.national("nat.conmebol", "Selecciones CONMEBOL", "soccer/fifa.worldq.conmebol",
+                    "soccer/conmebol.america"),
+            Comp.national("nat.uefa", "Selecciones UEFA", "soccer/fifa.worldq.uefa",
+                    "soccer/uefa.nations", "soccer/uefa.euro"),
+            Comp.national("nat.concacaf", "Selecciones Concacaf", "soccer/fifa.worldq.concacaf",
+                    "soccer/concacaf.nations.league", "soccer/concacaf.gold"),
+            Comp.national("nat.caf", "Selecciones CAF", "soccer/fifa.worldq.caf", "soccer/caf.nations"),
+            Comp.national("nat.afc", "Selecciones AFC", "soccer/fifa.worldq.afc", "soccer/afc.asian.cup"),
+            Comp.national("nat.ofc", "Selecciones OFC", "soccer/fifa.worldq.ofc"),
+    };
+    /** Where one national team also plays, whatever its confederation. */
+    private static final String[] NATIONAL_ALL = {"soccer/fifa.friendly", "soccer/fifa.world"};
 
     static final Comp[] CATALOG = {
             new Comp("ecu.1", "LigaPro Ecuador", "soccer/ecu.1", 242, false),
@@ -142,6 +173,7 @@ final class SportsFeed {
 
     static Comp comp(String id) {
         for (Comp c : CATALOG) if (c.id.equals(id)) return c;
+        for (Comp c : NATIONAL) if (c.id.equals(id)) return c;
         return null;
     }
 
@@ -199,6 +231,7 @@ final class SportsFeed {
                 g.title = slotLabel(value);
                 try {
                     if (c.f1) f1(app, g);
+                    else if (c.national) national(c, teamId, g);
                     else espn(c, teamId, g);
                 } catch (Exception e) {
                     g.rows.clear();
@@ -247,6 +280,66 @@ final class SportsFeed {
                     if (r.state == POST) {
                         if (last == null || r.start > last.start) last = r;
                     } else if (next == null || r.start < next.start) next = r;
+                }
+            }
+            if (next != null) rows.add(next);
+            if (last != null) rows.add(last);
+        }
+        sortAndTrim(rows);
+        g.rows.addAll(rows);
+    }
+
+    /**
+     * A confederation's national teams: its qualifiers, continental cup and nations league together
+     * (one national team: also friendlies and the World Cup). The block's logo is the confederation's,
+     * which ESPN gives as its qualifiers' logo. A competition that does not answer is skipped.
+     */
+    private static void national(Comp c, String teamId, Group g) throws Exception {
+        List<String> paths = new ArrayList<>();
+        paths.add(c.espn);
+        Collections.addAll(paths, c.more);
+        if (!teamId.isEmpty()) Collections.addAll(paths, NATIONAL_ALL);
+        List<Row> rows = new ArrayList<>();
+        java.util.Set<String> seen = new java.util.HashSet<>();
+        int answered = 0;
+        for (int p = 0; p < paths.size(); p++) {
+            JSONObject board;
+            try {
+                board = new JSONObject(get(ESPN + paths.get(p) + "/scoreboard", null));
+            } catch (Exception e) {
+                continue;
+            }
+            answered++;
+            if (p == 0) g.logo = leagueLogo(board);
+            JSONArray events = board.optJSONArray("events");
+            if (events == null) continue;
+            for (int i = 0; i < events.length(); i++) {
+                JSONObject ev = events.getJSONObject(i);
+                if (!seen.add(ev.optString("id"))) continue;
+                Row r = espnGame(ev, teamId);
+                if (r != null) rows.add(r);
+            }
+        }
+        if (answered == 0) throw new IOException("no competition answered");
+        // One national team with nothing on the current scoreboards: its last result and next game,
+        // looked up in every competition it plays.
+        if (!teamId.isEmpty() && rows.isEmpty()) {
+            Row last = null, next = null;
+            for (String path : paths) {
+                JSONArray ev;
+                try {
+                    ev = new JSONObject(get(ESPN + path + "/teams/" + teamId + "/schedule", null)).optJSONArray("events");
+                } catch (Exception e) {
+                    continue;
+                }
+                if (ev == null) continue;
+                for (int i = 0; i < ev.length(); i++) {
+                    Row r = espnGame(ev.getJSONObject(i), teamId);
+                    if (r == null) continue;
+                    if (r.state == POST) {
+                        if (last == null || r.start > last.start) last = r;
+                    } else if (r.start > System.currentTimeMillis() - 3 * 60 * 60 * 1000L
+                            && (next == null || r.start < next.start)) next = r;
                 }
             }
             if (next != null) rows.add(next);
