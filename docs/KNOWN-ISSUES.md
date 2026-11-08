@@ -8,13 +8,14 @@ se ha probado en ambos, igual que la Ligue 1 en los marcadores.
 
 - **Botón de Bluetooth.** Google TV no responde a la pantalla estándar de Bluetooth: «Mandos y
   accesorios» es una sección dentro de Ajustes, y su pantalla de secciones (`SliceActivity`) solo la abre
-  quien tenga el permiso `WRITE_SECURE_SETTINGS`. Por eso el botón abre la búsqueda de accesorios para
-  emparejar, salvo que se conceda ese permiso por adb
-  (`adb shell pm grant app.pixora.tv android.permission.WRITE_SECURE_SETTINGS`): entonces abre «Mandos y
-  accesorios». La versión 2026.11.07.015 lo intentaba sin el permiso y el launcher se cerraba; desde la
-  2026.11.07.016 una pantalla rechazada solo muestra un aviso. En Android TV abre los ajustes de
-  Bluetooth. Un Android TV 9 sin Bluetooth declara Bluetooth aunque no lo tenga, pero no tiene esa
-  pantalla: ahí el botón no aparece (comprobado).
+  quien tenga el permiso `WRITE_SECURE_SETTINGS` (la búsqueda de accesorios para emparejar, también).
+  Con ese permiso, concedido por adb
+  (`adb shell pm grant app.pixora.tv android.permission.WRITE_SECURE_SETTINGS`), el botón abre «Mandos y
+  accesorios» (comprobado en un Chromecast). Sin él, desde la 2026.11.07.017 muestra un aviso que explica
+  el permiso que falta y lleva a Ajustes (aún sin probar). La 2026.11.07.015 lo intentaba sin el permiso
+  y el launcher se cerraba; desde la 2026.11.07.016 una pantalla rechazada nunca cierra el launcher. En
+  Android TV abre los ajustes de Bluetooth. Un Android TV 9 sin Bluetooth declara Bluetooth aunque no lo
+  tenga, pero no tiene esa pantalla: ahí el botón no aparece (comprobado).
 
 ## Google TV (Chromecast)
 

@@ -351,7 +351,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // than one that lands on the Settings home.
         Intent bluetooth = bluetoothScreen();
         if (bluetooth == null) btnBluetooth.setVisibility(View.GONE);
-        else btnBluetooth.setOnClickListener(v -> open(new Intent(bluetooth)));
+        else btnBluetooth.setOnClickListener(v -> openBluetooth(bluetooth));
         btnSettings.setOnClickListener(v -> open(new Intent(Settings.ACTION_SETTINGS)));
         // Hold OK on Settings: this home screen's own options.
         btnSettings.setOnLongClickListener(v -> {
@@ -2451,8 +2451,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 (int) (3 * density), 0));
     }
 
-    /** Google TV's own "pair a remote or accessory" screen (Settings' AddAccessoryActivity). */
-    private static final String GOOGLE_TV_PAIR = "com.google.android.intent.action.CONNECT_INPUT";
     /** TV Settings and its "Remotes and accessories" slice (checked on a Chromecast, Android 14). */
     private static final String TV_SETTINGS = "com.android.tv.settings";
     private static final String ACCESSORIES_SLICE = "content://com.android.tv.settings.accessories.sliceprovider/general";
@@ -2465,8 +2463,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
      * declares the feature and ships the stack, but has no such screen: no pill there.</li>
      * <li>Google TV (Chromecast, Android 14, checked): no app answers the standard action. Its
      * "Mandos y accesorios" screen is a slice inside Settings, which Settings' SliceActivity opens on
-     * its own given the slice's URI: that is what the pill opens. Failing that, CONNECT_INPUT, the
-     * "searching for accessories" pairing screen.</li>
+     * its own given the slice's URI: that is what the pill opens. Settings lets only callers holding
+     * WRITE_SECURE_SETTINGS open it (and its pairing screen too), so without that permission the pill
+     * explains how to grant it (openBluetooth).</li>
      * </ul>
      */
     private Intent bluetoothScreen() {
@@ -2488,12 +2487,30 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             Intent list = new Intent("android.settings.SLICE_SETTINGS")
                     .setClassName(TV_SETTINGS, TV_SETTINGS + ".slice.SliceActivity")
                     .putExtra("slice_uri", ACCESSORIES_SLICE);
-            if (checkSelfPermission(android.Manifest.permission.WRITE_SECURE_SETTINGS) == PackageManager.PERMISSION_GRANTED
-                    && list.resolveActivity(pm) != null) return list;
-            Intent pair = new Intent(GOOGLE_TV_PAIR);
-            if (pair.resolveActivity(pm) != null) return pair;
+            if (list.resolveActivity(pm) != null) return list;
         }
         return null;
+    }
+
+    /**
+     * The Bluetooth pill. On Google TV the accessories screen needs WRITE_SECURE_SETTINGS, checked at
+     * each press (so a grant over adb works without restarting): without it, a notice that says what is
+     * missing and how to grant it, with a way to Settings, instead of a bare "not available".
+     */
+    private void openBluetooth(Intent screen) {
+        boolean needsPermission = screen.getComponent() != null
+                && TV_SETTINGS.equals(screen.getComponent().getPackageName())
+                && checkSelfPermission(android.Manifest.permission.WRITE_SECURE_SETTINGS) != PackageManager.PERMISSION_GRANTED;
+        if (!needsPermission) {
+            open(new Intent(screen));
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.bt_permission_title)
+                .setMessage(getString(R.string.bt_permission_message, getPackageName()))
+                .setPositiveButton(R.string.bt_open_settings, (d, w) -> open(new Intent(Settings.ACTION_SETTINGS)))
+                .setNegativeButton(R.string.bt_close, null)
+                .show();
     }
 
     private void open(Intent i) {

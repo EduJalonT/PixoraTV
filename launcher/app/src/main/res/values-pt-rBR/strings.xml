@@ -4,6 +4,10 @@
     <string name="inputs">Entradas</string>
     <string name="wifi">Wi-Fi</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="bt_permission_title">Falta uma permissão para Bluetooth</string>
+    <string name="bt_permission_message">Para abrir Controles e acessórios diretamente, o Google TV pede uma permissão que só pode ser concedida de um computador, uma vez:\nadb shell pm grant %1$s android.permission.WRITE_SECURE_SETTINGS\n\nEnquanto isso, está em Configurações &gt; Controles e acessórios.</string>
+    <string name="bt_open_settings">Abrir Configurações</string>
+    <string name="bt_close">Fechar</string>
     <string name="settings">Configurações</string>
     <string name="home_options">Opções</string>
     <string name="quick_panel_label">Pixora TV: configurações rápidas e tela inicial</string>

@@ -4,6 +4,10 @@
     <string name="inputs">Entradas</string>
     <string name="wifi">Wi-Fi</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="bt_permission_title">Falta un permiso para Bluetooth</string>
+    <string name="bt_permission_message">Para abrir Mandos y accesorios directamente, Google TV pide un permiso que solo se concede desde un ordenador, una vez:\nadb shell pm grant %1$s android.permission.WRITE_SECURE_SETTINGS\n\nMientras tanto, está en Ajustes &gt; Mandos y accesorios.</string>
+    <string name="bt_open_settings">Abrir Ajustes</string>
+    <string name="bt_close">Cerrar</string>
     <string name="settings">Ajustes</string>
     <string name="home_options">Opciones</string>
     <string name="quick_panel_label">Pixora TV: ajustes rápidos y pantalla de inicio</string>
