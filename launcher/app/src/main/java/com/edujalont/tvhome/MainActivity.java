@@ -2453,6 +2453,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     /** Google TV's own "pair a remote or accessory" screen (Settings' AddAccessoryActivity). */
     private static final String GOOGLE_TV_PAIR = "com.google.android.intent.action.CONNECT_INPUT";
+    /** TV Settings and its "Remotes and accessories" slice (checked on a Chromecast, Android 14). */
+    private static final String TV_SETTINGS = "com.android.tv.settings";
+    private static final String ACCESSORIES_SLICE = "content://com.android.tv.settings.accessories.sliceprovider/general";
 
     /**
      * The screen the Bluetooth pill opens, or null for no pill. The TV must declare Bluetooth and have an
@@ -2460,9 +2463,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
      * <ul>
      * <li>Android TV: the standard Bluetooth settings screen. An Android TV 9 set without the radio
      * declares the feature and ships the stack, but has no such screen: no pill there.</li>
-     * <li>Google TV (Chromecast, Android 14, checked): no app answers the standard action, the list of
-     * remotes and accessories lives inside the Settings home; it does answer CONNECT_INPUT, its
-     * "searching for accessories" pairing screen, which is what the pill opens.</li>
+     * <li>Google TV (Chromecast, Android 14, checked): no app answers the standard action. Its
+     * "Mandos y accesorios" screen is a slice inside Settings, which Settings' SliceActivity opens on
+     * its own given the slice's URI: that is what the pill opens. Failing that, CONNECT_INPUT, the
+     * "searching for accessories" pairing screen.</li>
      * </ul>
      */
     private Intent bluetoothScreen() {
@@ -2476,6 +2480,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         Intent standard = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
         if (standard.resolveActivity(pm) != null) return standard;
         if (QuickPanelService.isGoogleTv(this)) {
+            // "Mandos y accesorios" itself: Settings' slice screen showing the accessories slice. The
+            // URI goes in the slice_uri extra (as data it opened empty).
+            Intent list = new Intent("android.settings.SLICE_SETTINGS")
+                    .setClassName(TV_SETTINGS, TV_SETTINGS + ".slice.SliceActivity")
+                    .putExtra("slice_uri", ACCESSORIES_SLICE);
+            if (list.resolveActivity(pm) != null) return list;
             Intent pair = new Intent(GOOGLE_TV_PAIR);
             if (pair.resolveActivity(pm) != null) return pair;
         }

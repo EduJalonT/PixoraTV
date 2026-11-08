@@ -6,12 +6,13 @@ Android TV 9 se han probado la instalación como app de inicio, el panel de opci
 entradas, las noticias y los marcadores. La actualización desde la propia TV (Opciones > Actualizaciones)
 se ha probado en ambos, igual que la Ligue 1 en los marcadores.
 
-- **Botón de Bluetooth.** Google TV no responde a la pantalla estándar de Bluetooth (la lista de mandos y
-  accesorios está dentro del inicio de Ajustes), así que en Google TV el botón abre su búsqueda de
-  accesorios para emparejar. En Android TV abre los ajustes de Bluetooth. Un Android TV 9 sin Bluetooth
-  declara Bluetooth aunque no lo tenga, pero no tiene esa pantalla: ahí el botón no aparece (comprobado
-  con la versión 2026.11.07.012). La versión 2026.11.07.012 también lo ocultaba en Google TV; la
-  2026.11.07.014 lo corrige, aún sin probar en la TV.
+- **Botón de Bluetooth.** Google TV no responde a la pantalla estándar de Bluetooth: «Mandos y
+  accesorios» es una sección dentro de Ajustes. El botón la abre directamente con la pantalla de
+  secciones de Ajustes (`SliceActivity` con su URI); si no estuviera, abre la búsqueda de accesorios para
+  emparejar. En Android TV abre los ajustes de Bluetooth. Un Android TV 9 sin Bluetooth declara Bluetooth
+  aunque no lo tenga, pero no tiene esa pantalla: ahí el botón no aparece (comprobado). La versión
+  2026.11.07.014 abría la búsqueda de accesorios en lugar de la lista; la 2026.11.07.015 abre «Mandos y
+  accesorios» (comprobado lanzando esa pantalla en un Chromecast; desde la app, aún no).
 
 ## Google TV (Chromecast)
 
