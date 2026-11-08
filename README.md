@@ -9,9 +9,9 @@ En Google TV sustituye a Google TV Home como pantalla de inicio sin desactivarlo
 instalado como mecanismo de recuperación y conserva su panel de ajustes rápidos. En Android TV es una
 app de inicio normal.
 
-> Versión **2026.11.07.015**. Probada en Chromecast con Google TV (Android 14) y en un televisor con
-> Android TV 9, incluidas la actualización desde la propia TV y la Ligue 1; que el botón de Bluetooth abra
-> «Mandos y accesorios» desde la app aún no se ha probado. Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
+> Versión **2026.11.07.016**. Probada en Chromecast con Google TV (Android 14) y en un televisor con
+> Android TV 9, incluidas la actualización desde la propia TV y la Ligue 1; el botón de Bluetooth de esta
+> versión aún no se ha probado. Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
 >
 > Las versiones siguen la fecha: `AAAA.MM.DD.NNN` (versionCode `AAMMDDNNN`).
 
@@ -42,7 +42,7 @@ app de inicio normal.
 | Noticias RSS | Hasta 5 feeds propios (Opciones > Noticias); la fila se pliega al bajar a las apps |
 | Salvapantallas | Botón con icono de luna: noticias a pantalla completa (solo con la fila de noticias activa) |
 | Marcadores en vivo | Botón con icono de trofeo (punto rojo si hay algo en vivo): hasta 10 seguimientos (ligas, un equipo de una liga, selecciones de fútbol por confederación o una selección, NBA, NFL, MLB, NHL, F1) elegidos en Opciones > Marcadores, con el logo de cada competición o confederación, el escudo de cada equipo y la bandera de cada piloto. Datos de ESPN; API-Football con tu propia clave si ESPN no responde; OpenF1 para el orden en vivo de la F1 cuando responde. Desactivado por defecto |
-| Barra superior | Todos los botones son iconos del mismo tamaño: contenido (entradas, marcadores, noticias) y después sistema (voz, Wi-Fi, Bluetooth, Ajustes, opciones); el nombre de la red ya no se imprime. Bluetooth abre en Google TV «Mandos y accesorios» (emparejar y ver los dispositivos) y en Android TV los ajustes de Bluetooth; no aparece en las TVs sin Bluetooth |
+| Barra superior | Todos los botones son iconos del mismo tamaño: contenido (entradas, marcadores, noticias) y después sistema (voz, Wi-Fi, Bluetooth, Ajustes, opciones); el nombre de la red ya no se imprime. Bluetooth abre en Google TV la búsqueda de accesorios para emparejar, o «Mandos y accesorios» si se concede a Pixora TV el permiso `WRITE_SECURE_SETTINGS` por adb; en Android TV, los ajustes de Bluetooth. No aparece en las TVs sin Bluetooth |
 | Dock y apps | Mantener OK sobre un icono > Mover; todo el dock se mueve como una fila |
 | Entradas | Solo si el dispositivo tiene entradas: HDMI, AV y la app de TV del fabricante (lista `live_tv_packages` en `config.xml`) |
 | Actualizaciones | Panel del lápiz > Actualizaciones > **Buscar actualizaciones ahora**: busca la última release de GitHub, la descarga, comprueba su SHA-256 y abre el instalador de Android. Con la búsqueda automática activada (por defecto) avisa al volver al Inicio, como mucho cada 12 horas |

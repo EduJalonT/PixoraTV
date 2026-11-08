@@ -2481,11 +2481,15 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (standard.resolveActivity(pm) != null) return standard;
         if (QuickPanelService.isGoogleTv(this)) {
             // "Mandos y accesorios" itself: Settings' slice screen showing the accessories slice. The
-            // URI goes in the slice_uri extra (as data it opened empty).
+            // URI goes in the slice_uri extra (as data it opened empty). Settings only lets callers
+            // holding WRITE_SECURE_SETTINGS open it (an app without it was refused, which crashed this
+            // launcher in 2026.11.07.015): only with that permission, granted over adb
+            // (pm grant app.pixora.tv android.permission.WRITE_SECURE_SETTINGS).
             Intent list = new Intent("android.settings.SLICE_SETTINGS")
                     .setClassName(TV_SETTINGS, TV_SETTINGS + ".slice.SliceActivity")
                     .putExtra("slice_uri", ACCESSORIES_SLICE);
-            if (list.resolveActivity(pm) != null) return list;
+            if (checkSelfPermission(android.Manifest.permission.WRITE_SECURE_SETTINGS) == PackageManager.PERMISSION_GRANTED
+                    && list.resolveActivity(pm) != null) return list;
             Intent pair = new Intent(GOOGLE_TV_PAIR);
             if (pair.resolveActivity(pm) != null) return pair;
         }
@@ -2496,7 +2500,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             startActivity(i);
-        } catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException | SecurityException e) {
+            // A screen that is gone, or one the system refuses to this app: a notice, never a crash
+            // (a refused launch used to take the whole launcher down).
             Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show();
         }
     }

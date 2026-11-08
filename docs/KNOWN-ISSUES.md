@@ -7,12 +7,14 @@ entradas, las noticias y los marcadores. La actualización desde la propia TV (O
 se ha probado en ambos, igual que la Ligue 1 en los marcadores.
 
 - **Botón de Bluetooth.** Google TV no responde a la pantalla estándar de Bluetooth: «Mandos y
-  accesorios» es una sección dentro de Ajustes. El botón la abre directamente con la pantalla de
-  secciones de Ajustes (`SliceActivity` con su URI); si no estuviera, abre la búsqueda de accesorios para
-  emparejar. En Android TV abre los ajustes de Bluetooth. Un Android TV 9 sin Bluetooth declara Bluetooth
-  aunque no lo tenga, pero no tiene esa pantalla: ahí el botón no aparece (comprobado). La versión
-  2026.11.07.014 abría la búsqueda de accesorios en lugar de la lista; la 2026.11.07.015 abre «Mandos y
-  accesorios» (comprobado lanzando esa pantalla en un Chromecast; desde la app, aún no).
+  accesorios» es una sección dentro de Ajustes, y su pantalla de secciones (`SliceActivity`) solo la abre
+  quien tenga el permiso `WRITE_SECURE_SETTINGS`. Por eso el botón abre la búsqueda de accesorios para
+  emparejar, salvo que se conceda ese permiso por adb
+  (`adb shell pm grant app.pixora.tv android.permission.WRITE_SECURE_SETTINGS`): entonces abre «Mandos y
+  accesorios». La versión 2026.11.07.015 lo intentaba sin el permiso y el launcher se cerraba; desde la
+  2026.11.07.016 una pantalla rechazada solo muestra un aviso. En Android TV abre los ajustes de
+  Bluetooth. Un Android TV 9 sin Bluetooth declara Bluetooth aunque no lo tenga, pero no tiene esa
+  pantalla: ahí el botón no aparece (comprobado).
 
 ## Google TV (Chromecast)
 
