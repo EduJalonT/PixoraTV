@@ -3,6 +3,7 @@
     <string name="app_name">Pixora TV</string>
     <string name="inputs">Entradas</string>
     <string name="wifi">Wi-Fi</string>
+    <string name="bluetooth">Bluetooth</string>
     <string name="settings">Configurações</string>
     <string name="home_options">Opções</string>
     <string name="quick_panel_label">Pixora TV: configurações rápidas e tela inicial</string>

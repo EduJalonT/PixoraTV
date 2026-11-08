@@ -110,6 +110,7 @@ final class SportsFeed {
             new Comp("esp.1", "LaLiga", "soccer/esp.1", 140, false),
             new Comp("ita.1", "Serie A", "soccer/ita.1", 135, false),
             new Comp("ger.1", "Bundesliga", "soccer/ger.1", 78, false),
+            new Comp("fra.1", "Ligue 1", "soccer/fra.1", 61, false),
             new Comp("usa.1", "MLS", "soccer/usa.1", 253, false),
             new Comp("nba", "NBA", "basketball/nba", 0, false),
             new Comp("nfl", "NFL", "football/nfl", 0, false),

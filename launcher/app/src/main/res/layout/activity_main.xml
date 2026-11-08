@@ -143,7 +143,7 @@
                 android:orientation="horizontal">
 
                 <!-- Every pill is an icon of the same size, content first (inputs, scores, news), then the
-                     system (voice, Wi-Fi, settings, options). The names live in contentDescription. -->
+                     system (voice, Wi-Fi, Bluetooth, settings, options). The names live in contentDescription. -->
                 <TextView
                     android:id="@+id/btnInputs"
                     style="@style/TopIconButton"
@@ -185,6 +185,14 @@
                     style="@style/TopIconButton"
                     android:drawableStart="@drawable/ic_wifi"
                     android:contentDescription="@string/wifi"
+                    android:nextFocusDown="@+id/grid" />
+
+                <!-- Next to Wi-Fi, the other connection: remotes, headphones and other accessories. -->
+                <TextView
+                    android:id="@+id/btnBluetooth"
+                    style="@style/TopIconButton"
+                    android:drawableStart="@drawable/ic_bluetooth"
+                    android:contentDescription="@string/bluetooth"
                     android:nextFocusDown="@+id/grid" />
 
                 <TextView

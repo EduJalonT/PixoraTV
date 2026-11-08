@@ -344,6 +344,14 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         View btnSettings = findViewById(R.id.btnSettings);
         btnInputs.setOnClickListener(v -> showInputs());
         btnWifi.setOnClickListener(v -> open(new Intent(Settings.ACTION_WIFI_SETTINGS)));
+        // Bluetooth: the TV's "Remotes and accessories" screen answers this action on Android TV and
+        // Google TV; a set without it gets the Settings home instead of an error.
+        View btnBluetooth = findViewById(R.id.btnBluetooth);
+        btnBluetooth.setOnClickListener(v -> {
+            Intent bt = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+            if (bt.resolveActivity(getPackageManager()) == null) bt = new Intent(Settings.ACTION_SETTINGS);
+            open(bt);
+        });
         btnSettings.setOnClickListener(v -> open(new Intent(Settings.ACTION_SETTINGS)));
         // Hold OK on Settings: this home screen's own options.
         btnSettings.setOnLongClickListener(v -> {
@@ -388,6 +396,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         btnScreensaver.setOnKeyListener(pillKeys);
         btnScores.setOnKeyListener(pillKeys);
         btnWifi.setOnKeyListener(pillKeys);
+        btnBluetooth.setOnKeyListener(pillKeys);
         btnVoice.setOnKeyListener(pillKeys);
         btnSettings.setOnKeyListener(pillKeys);
         btnHomeOptions.setOnKeyListener(pillKeys);
