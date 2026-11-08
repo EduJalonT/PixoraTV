@@ -344,13 +344,14 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         View btnSettings = findViewById(R.id.btnSettings);
         btnInputs.setOnClickListener(v -> showInputs());
         btnWifi.setOnClickListener(v -> open(new Intent(Settings.ACTION_WIFI_SETTINGS)));
-        // Bluetooth: the TV's "Remotes and accessories" screen answers this action on Android TV and
-        // Google TV; a set without that screen gets no button (hasBluetooth).
+        // Bluetooth: Android TV's Bluetooth settings or, on Google TV, its accessory pairing screen; a set
+        // with neither (or without Bluetooth) gets no button (bluetoothScreen).
         View btnBluetooth = findViewById(R.id.btnBluetooth);
         // A set without Bluetooth (some Android TV 9 TVs) has nothing to open: no icon at all, rather
         // than one that lands on the Settings home.
-        if (!hasBluetooth()) btnBluetooth.setVisibility(View.GONE);
-        btnBluetooth.setOnClickListener(v -> open(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)));
+        Intent bluetooth = bluetoothScreen();
+        if (bluetooth == null) btnBluetooth.setVisibility(View.GONE);
+        else btnBluetooth.setOnClickListener(v -> open(new Intent(bluetooth)));
         btnSettings.setOnClickListener(v -> open(new Intent(Settings.ACTION_SETTINGS)));
         // Hold OK on Settings: this home screen's own options.
         btnSettings.setOnLongClickListener(v -> {
@@ -2450,20 +2451,35 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 (int) (3 * density), 0));
     }
 
+    /** Google TV's own "pair a remote or accessory" screen (Settings' AddAccessoryActivity). */
+    private static final String GOOGLE_TV_PAIR = "com.google.android.intent.action.CONNECT_INPUT";
+
     /**
-     * Whether this TV has Bluetooth worth a button: it has a Bluetooth settings screen to open, the
-     * system declares the feature and an adapter exists. An Android TV 9 set without the radio passed
-     * the last two (its system ships the Bluetooth stack) but has no such screen, which is what gave it
-     * away: the button landed on the Settings home. Reading the adapter needs no permission.
+     * The screen the Bluetooth pill opens, or null for no pill. The TV must declare Bluetooth and have an
+     * adapter (reading it needs no permission), and then:
+     * <ul>
+     * <li>Android TV: the standard Bluetooth settings screen. An Android TV 9 set without the radio
+     * declares the feature and ships the stack, but has no such screen: no pill there.</li>
+     * <li>Google TV (Chromecast, Android 14, checked): no app answers the standard action, the list of
+     * remotes and accessories lives inside the Settings home; it does answer CONNECT_INPUT, its
+     * "searching for accessories" pairing screen, which is what the pill opens.</li>
+     * </ul>
      */
-    private boolean hasBluetooth() {
-        if (new Intent(Settings.ACTION_BLUETOOTH_SETTINGS).resolveActivity(getPackageManager()) == null) return false;
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) return false;
+    private Intent bluetoothScreen() {
+        PackageManager pm = getPackageManager();
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) return null;
         try {
-            return android.bluetooth.BluetoothAdapter.getDefaultAdapter() != null;
+            if (android.bluetooth.BluetoothAdapter.getDefaultAdapter() == null) return null;
         } catch (Exception e) {
-            return false;
+            return null;
         }
+        Intent standard = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+        if (standard.resolveActivity(pm) != null) return standard;
+        if (QuickPanelService.isGoogleTv(this)) {
+            Intent pair = new Intent(GOOGLE_TV_PAIR);
+            if (pair.resolveActivity(pm) != null) return pair;
+        }
+        return null;
     }
 
     private void open(Intent i) {

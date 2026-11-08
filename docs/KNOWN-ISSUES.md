@@ -4,9 +4,14 @@ La versión 2026.11.07.009 se ha probado en Chromecast con Google TV (Android 14
 tras reiniciar, panel de opciones, noticias y marcadores con logos y selecciones. En un televisor con
 Android TV 9 se han probado la instalación como app de inicio, el panel de opciones, el menú de
 entradas, las noticias y los marcadores. La actualización desde la propia TV (Opciones > Actualizaciones)
-se ha probado en ambos, igual que la Ligue 1 en los marcadores. En un Android TV 9 sin Bluetooth el
-sistema declara Bluetooth aunque la TV no lo tenga; desde la versión 2026.11.07.012 el botón no aparece
-cuando la TV no tiene pantalla de Bluetooth (comprobado en esa TV).
+se ha probado en ambos, igual que la Ligue 1 en los marcadores.
+
+- **Botón de Bluetooth.** Google TV no responde a la pantalla estándar de Bluetooth (la lista de mandos y
+  accesorios está dentro del inicio de Ajustes), así que en Google TV el botón abre su búsqueda de
+  accesorios para emparejar. En Android TV abre los ajustes de Bluetooth. Un Android TV 9 sin Bluetooth
+  declara Bluetooth aunque no lo tenga, pero no tiene esa pantalla: ahí el botón no aparece (comprobado
+  con la versión 2026.11.07.012). La versión 2026.11.07.012 también lo ocultaba en Google TV; la
+  2026.11.07.014 lo corrige, aún sin probar en la TV.
 
 ## Google TV (Chromecast)
 
