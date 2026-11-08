@@ -10,8 +10,8 @@ instalado como mecanismo de recuperación y conserva su panel de ajustes rápido
 app de inicio normal.
 
 > Versión **2026.11.07.012**. Probada en Chromecast con Google TV (Android 14) y en un televisor con
-> Android TV 9, incluida la actualización desde la propia TV; lo último (ocultar el botón de Bluetooth en
-> las TVs sin Bluetooth y la Ligue 1) aún no se ha probado en una TV. Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
+> Android TV 9, incluidos la actualización desde la propia TV, la Ligue 1 y el botón de Bluetooth (que
+> no aparece en las TVs sin Bluetooth). Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
 >
 > Las versiones siguen la fecha: `AAAA.MM.DD.NNN` (versionCode `AAMMDDNNN`).
 
