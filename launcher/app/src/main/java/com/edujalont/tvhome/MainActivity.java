@@ -345,16 +345,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         btnInputs.setOnClickListener(v -> showInputs());
         btnWifi.setOnClickListener(v -> open(new Intent(Settings.ACTION_WIFI_SETTINGS)));
         // Bluetooth: the TV's "Remotes and accessories" screen answers this action on Android TV and
-        // Google TV; a set without it gets the Settings home instead of an error.
+        // Google TV; a set without that screen gets no button (hasBluetooth).
         View btnBluetooth = findViewById(R.id.btnBluetooth);
         // A set without Bluetooth (some Android TV 9 TVs) has nothing to open: no icon at all, rather
         // than one that lands on the Settings home.
         if (!hasBluetooth()) btnBluetooth.setVisibility(View.GONE);
-        btnBluetooth.setOnClickListener(v -> {
-            Intent bt = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-            if (bt.resolveActivity(getPackageManager()) == null) bt = new Intent(Settings.ACTION_SETTINGS);
-            open(bt);
-        });
+        btnBluetooth.setOnClickListener(v -> open(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)));
         btnSettings.setOnClickListener(v -> open(new Intent(Settings.ACTION_SETTINGS)));
         // Hold OK on Settings: this home screen's own options.
         btnSettings.setOnLongClickListener(v -> {
@@ -2455,10 +2451,13 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     }
 
     /**
-     * Whether this TV has Bluetooth: the system declares the feature and an adapter exists (some sets
-     * declare one without the radio). Reading the adapter needs no permission.
+     * Whether this TV has Bluetooth worth a button: it has a Bluetooth settings screen to open, the
+     * system declares the feature and an adapter exists. An Android TV 9 set without the radio passed
+     * the last two (its system ships the Bluetooth stack) but has no such screen, which is what gave it
+     * away: the button landed on the Settings home. Reading the adapter needs no permission.
      */
     private boolean hasBluetooth() {
+        if (new Intent(Settings.ACTION_BLUETOOTH_SETTINGS).resolveActivity(getPackageManager()) == null) return false;
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) return false;
         try {
             return android.bluetooth.BluetoothAdapter.getDefaultAdapter() != null;
