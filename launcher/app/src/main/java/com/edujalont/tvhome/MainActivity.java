@@ -347,6 +347,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // Bluetooth: the TV's "Remotes and accessories" screen answers this action on Android TV and
         // Google TV; a set without it gets the Settings home instead of an error.
         View btnBluetooth = findViewById(R.id.btnBluetooth);
+        // A set without Bluetooth (some Android TV 9 TVs) has nothing to open: no icon at all, rather
+        // than one that lands on the Settings home.
+        if (!hasBluetooth()) btnBluetooth.setVisibility(View.GONE);
         btnBluetooth.setOnClickListener(v -> {
             Intent bt = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
             if (bt.resolveActivity(getPackageManager()) == null) bt = new Intent(Settings.ACTION_SETTINGS);
@@ -2449,6 +2452,19 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         dot.setSize(d, d);
         btnScores.setForeground(new android.graphics.drawable.InsetDrawable(dot, 0, (int) (3 * density),
                 (int) (3 * density), 0));
+    }
+
+    /**
+     * Whether this TV has Bluetooth: the system declares the feature and an adapter exists (some sets
+     * declare one without the radio). Reading the adapter needs no permission.
+     */
+    private boolean hasBluetooth() {
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)) return false;
+        try {
+            return android.bluetooth.BluetoothAdapter.getDefaultAdapter() != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void open(Intent i) {
