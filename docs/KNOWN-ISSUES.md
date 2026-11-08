@@ -3,7 +3,8 @@
 La versión 2026.11.07.009 se ha probado en Chromecast con Google TV (Android 14): instalación, arranque
 tras reiniciar, panel de opciones, noticias y marcadores con logos y selecciones. En un televisor con
 Android TV 9 se han probado la instalación como app de inicio, el panel de opciones, el menú de
-entradas, las noticias y los marcadores. Aún no se ha probado la actualización desde la propia TV.
+entradas, las noticias y los marcadores. La actualización desde la propia TV (Opciones > Actualizaciones)
+se ha probado en Chromecast con Google TV; en Android TV 9, aún no.
 
 ## Google TV (Chromecast)
 
