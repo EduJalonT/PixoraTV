@@ -1,9 +1,9 @@
 # Problemas conocidos
 
-La base de Pixora TV se ha usado en dos Chromecast con Google TV (Android 14) y en un televisor TCL con
-Android TV 9. Sus funciones (instalación, arranque tras reiniciar, panel de opciones, noticias y
-marcadores, con logos y selecciones) se han probado en un Chromecast con Google TV con la versión
-2026.11.07.009; el actualizador y Android TV 9 aún no se han probado.
+La versión 2026.11.07.009 se ha probado en Chromecast con Google TV (Android 14): instalación, arranque
+tras reiniciar, panel de opciones, noticias y marcadores con logos y selecciones. En un televisor con
+Android TV 9 se han probado la instalación como app de inicio, el panel de opciones, el menú de
+entradas, las noticias y los marcadores. Aún no se ha probado la actualización desde la propia TV.
 
 ## Google TV (Chromecast)
 
@@ -35,7 +35,7 @@ marcadores, con logos y selecciones) se han probado en un Chromecast con Google 
   así que Pixora TV no los necesita y los apaga aunque el servicio esté activado.
 - **Entradas.** Algunos televisores con Android TV 9 no anuncian sus entradas de la forma estándar;
   Pixora TV usa entonces la app de TV del fabricante si está en la lista `live_tv_packages`
-  (`launcher/app/src/main/res/values/config.xml`; hoy, la de TCL).
+  (`launcher/app/src/main/res/values/config.xml`).
 
 ## Ambos
 

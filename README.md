@@ -9,21 +9,24 @@ En Google TV sustituye a Google TV Home como pantalla de inicio sin desactivarlo
 instalado como mecanismo de recuperación y conserva su panel de ajustes rápidos. En Android TV es una
 app de inicio normal.
 
-> Versión **2026.11.07.009**. Su base se ha usado a diario en dos Chromecast
-> con Google TV (Android 14) y en un televisor TCL con Android TV 9; esta versión se ha probado en un
-> Chromecast con Google TV, aún no en Android TV 9. Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
+> Versión **2026.11.07.009**. Probada en Chromecast con Google TV (Android 14) y en un televisor con
+> Android TV 9. Consulta [docs/KNOWN-ISSUES.md](docs/KNOWN-ISSUES.md) antes de instalarlo.
 >
 > Las versiones siguen la fecha: `AAAA.MM.DD.NNN` (versionCode `AAMMDDNNN`).
 
 ## Capturas
 
-![Pantalla de inicio con la fila de noticias y el dock](docs/screenshots/inicio.png)
+![Pantalla de inicio: cabecera, barra de iconos, noticias y dock](docs/screenshots/inicio.png)
 
 ![Cabecera: dispositivo · hora · fecha · ciudad – clima](docs/screenshots/cabecera.png)
 
-![Ajustes de noticias con un feed RSS](docs/screenshots/noticias.png)
+![Marcadores: LigaPro, Copa Libertadores y Eliminatorias con logos, escudos y banderas](docs/screenshots/marcadores.png)
 
-![Menú de entradas (Android TV) con HDMI, AV y TV en vivo](docs/screenshots/entradas.png)
+| Panel de opciones | Menú de entradas (Android TV) |
+|---|---|
+| ![Panel de opciones: Perfil, Apariencia, Clima, Noticias, Marcadores y Tarjetas de entrada](docs/screenshots/panel.png) | ![Menú de entradas con HDMI, AV y TV en vivo](docs/screenshots/entradas.png) |
+
+![Ajustes de noticias con un feed RSS](docs/screenshots/noticias.png)
 
 ## Qué hace
 
@@ -40,7 +43,7 @@ app de inicio normal.
 | Marcadores en vivo | Botón con icono de trofeo (punto rojo si hay algo en vivo): hasta 10 seguimientos (ligas, un equipo de una liga, selecciones de fútbol por confederación o una selección, NBA, NFL, MLB, NHL, F1) elegidos en Opciones > Marcadores, con el logo de cada competición o confederación, el escudo de cada equipo y la bandera de cada piloto. Datos de ESPN; API-Football con tu propia clave si ESPN no responde; OpenF1 para el orden en vivo de la F1 cuando responde. Desactivado por defecto |
 | Barra superior | Todos los botones son iconos del mismo tamaño: contenido (entradas, marcadores, noticias) y después sistema (voz, Wi-Fi, Ajustes, opciones); el nombre de la red ya no se imprime |
 | Dock y apps | Mantener OK sobre un icono > Mover; todo el dock se mueve como una fila |
-| Entradas | Solo si el dispositivo tiene entradas: HDMI, AV y la app de TV del fabricante (TCL) |
+| Entradas | Solo si el dispositivo tiene entradas: HDMI, AV y la app de TV del fabricante (lista `live_tv_packages` en `config.xml`) |
 | Actualizaciones | Panel del lápiz > Actualizaciones > **Buscar actualizaciones ahora**: busca la última release de GitHub, la descarga, comprueba su SHA-256 y abre el instalador de Android. Con la búsqueda automática activada (por defecto) avisa al volver al Inicio, como mucho cada 12 horas |
 | Recuperación | Panel del lápiz > Recuperación: reactivar el inicio original, abrir Ajustes, restaurar los valores del Inicio (pide confirmación) y cerrar |
 
